@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block css %}
+    <link rel="stylesheet" href="/static/my/css/news.css">
+{% endblock %}
+{% block main %}
+    <div class="main">
+        <div class="news_content">
+            <div class="left">
+                <ul>
+                    <li :class="item.name === news_active ? 'active' : ''" v-for="item in news_init" :key="item.name" @click="get_news_data(item.name,item.img,item.apiurl,false,0)">
+                        <img :src="item.img" alt=""> [[ item.name ]]
+                    </li>
+
+                </ul>
+            </div>
+            <div class="right">
+                <div class="title">
+                    <img :src="news_img_active" alt="">
+                    <h2>[[ news_active ]]．最新資訊</h2>
+                </div>
+                <div class="body">
+                    <ul>
+                        <li v-for="(item,index) in news_list"><span class="index">[[ index+1 ]]</span>
+                            <a :href="[news_active === '中時新聞網' ? 'https://'+item.PagePath : 'https://udn.com'+item.titleLink]" target="_blank">[[ news_active === '中時新聞網' ? item.PageTitle : item.title ]]</a><span
+                                    class="num">[[ news_active === '中時新聞網' ? item.PageViews  : item.view ]]</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <div class="thank"><a :href="[news_active === '中時新聞網' ? 'https://www.chinatimes.com/': 'https://udn.com']" target="_blank">[[ news_active === '中時新聞網' ? '新聞內容來源：中時新聞網'  : '新聞內容來源:聯合新聞網' ]]</a></div>
+    </div>
+{% endblock %}

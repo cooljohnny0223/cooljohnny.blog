@@ -1,0 +1,12 @@
+    <header>
+        <div class="title">
+            <h1>尚豪部落格</h1>
+            <p>關於尚豪部落格 更快更強！</p>
+        </div>
+        <!-- Django for 循環取得數據，賦值 -->
+        {% for img in img_list %}
+        <div class="dynamic_shuffl">
+            <img src="{{ img }}" alt="">
+        </div>
+        {% endfor %}
+    </header>

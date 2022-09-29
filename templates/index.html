@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load my_tag %}
+<head>
+    <meta charset="UTF-8">
+    <title>尚豪個人部落格</title>
+    <!-- 導入css文件 -->
+    <link rel="stylesheet" href="/static/element-ui/element.css">
+    <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/my/css/base.css">
+
+    {% block css %}
+        <link rel="stylesheet" href="/static/my/css/index.css">
+    {% endblock %}
+
+    <link rel="stylesheet" href="/static/fontawesome-free-6/css/all.min.css">
+
+</head>
+<body>
+<div id="app">
+    <!-- 佈景主題設置 -->
+    <link rel="stylesheet" :href="'/static/my/css/theme/'+theme+'.css'">
+    <!-- 上版面 -->
+    <nav class="nav_bg">
+        <div class="left">
+            {% dynamic_navigation request %}
+            <div class="search">
+                <input type="text" @keydown.enter="search" v-model="search_key" class="search_box"
+                       placeholder="搜尋您想要的內容">
+                <button @click="search"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        <div class="right">
+            <img v-show="theme === 'light'" src="/static/my/img/nav/light.svg" @click="setTheme('dark')" alt="">
+            <img v-show="theme === 'dark'" src="/static/my/img/nav/dark.svg" @click="setTheme('light')" alt="">
+
+            {% if request.user.username %}
+                <el-dropdown>
+                <span class="el-dropdown-link">
+                 {{ request.user.username }}<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item><a href="/backend/">個人中心</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/backend/edit_avatar">修改頭像</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/backend/add_article">發佈文章</a></el-dropdown-item>
+                        <el-dropdown-item><a href="/admin/">後台管理</a></el-dropdown-item>
+                        <el-dropdown-item divided><a href="/logout/">登出</a></el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            {% else %}
+                <a href="/login">登入</a>
+                <a href="/sign">註冊</a>
+            {% endif %}
+        </div>
+
+    </nav>
+    <!-- 上版面動畫切換背景圖 -->
+    {% block banner %}
+        {% banner 'index' %}
+    {% endblock %}
+    <!-- 中版面 -->
+    <main>
+        {% csrf_token %}
+        {% block main %}
+            <div class="main">
+                <div class="left">
+                    <div class="boutique_article card">
+                        <div class="title">
+                            <h2>精選文章</h2>
+                            <div class="switch_article_category">
+                                <span :active="this_category === 'forward'" @click="switch_article_category('forward')">前端</span>
+                                <span :active="this_category === 'back'"
+                                      @click="switch_article_category('back')">後端</span>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <ul v-show="this_category === 'forward'" class="forward">
+                                {% for forward in forward_list %}
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="{{ forward.cover.url.url }}" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+
+                                            <h2>{{ forward.title }}</h2>
+                                            <p>{{ forward.abstract }}內容</p>
+                                            <span>{{ forward.create_date }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <ul v-show="this_category === 'back'" class="back">
+                                {% for back in back_list %}
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="{{ back.cover.url.url }}" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+
+                                            <h2>{{ back.title }}</h2>
+                                            <p>{{ back.abstract }}</p>
+                                            <span>{{ back.create_date }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="hotList card">
+                        <div class="title">
+                            <h2>今日熱搜</h2>
+                            <div>
+                                <a href="/news/">查看更多</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <div><span class="index">最新</span>
+                                <a :href="['https://udn.com'+news_list.titleLink]" target="_blank">[[ news_list.title
+                                    ]]</a><span
+                                        class="num">[[ news_list.view ]]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all_article card">
+                        <div class="title">
+                            <h2 id="pos">博客文章</h2>
+                        </div>
+                        <div class="body">
+                            <ul class="article_content">
+                                {% for article in article_list %}
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="{{ article.cover.url.url }}" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <h2><a href="/article/{{ article.nid }}/">{{ article.title }}</a></h2>
+
+                                            <p>{{ article.abstract }}</p>
+                                            <div class="article_info">
+                                        <span>
+                                            <i class="far fa-clock"></i>{{ article.create_date|date:'Y-m-d' }}
+                                        </span>
+                                                <span>
+                                            <i class="far fa-thumbs-up"></i>{{ article.digg_count }}
+                                        </span>
+                                                <span>
+                                            <i class="far fa-eye"></i>{{ article.look_count }}
+                                        </span>
+                                                <span>
+                                            <i class="far fa-comments"></i>{{ article.comment_count }}
+                                        </span>
+                                                <span>
+                                            <i class="far fa-star-half-alt"></i>{{ article.collects_count }}
+                                        </span>
+                                            </div>
+                                            <a href="/article/{{ article.nid }}/" target="_blank">查看詳情</a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <ul class="pager">
+                                {{ pager.page_html|safe }}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    {% if advert_list.count %}
+                        <div class="advertisement card">
+                            <div class="title">
+                                <h2>獨家廣告</h2>
+                                <div>
+                                    <a href="#">申請</a>
+                                </div>
+                            </div>
+                            <div class="body">
+                                {% generate_advert advert_list %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="my_card card">
+                        <div class="title">
+                            <h3>個人名片</h3>
+                            <h4>MY</h4>
+                            <h4>PROFILE</h4>
+                            <img src="/static/my/img/backend/johnny_pic.png" alt="我的頭像">
+                        </div>
+                        <div class="body">
+                            個人名片內容
+                        </div>
+                    </div>
+                    <div class="tags card">
+                        <div class="title">
+                            <h3>標籤</h3>
+                        </div>
+                        <div class="body">
+                            <ul>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="site_info card">
+                        <div class="title">
+                            <h3>站點訊息</h3>
+                        </div>
+                        <div class="body">
+                            主要內容區域
+                        </div>
+                    </div>
+                    <div class="links card">
+                        <div class="title">
+                            <h3>友情連結</h3>
+                        </div>
+                        <div class="body">
+                            主要內容區域
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endblock %}
+    </main>
+    <!-- 下版面 -->
+    <footer>
+        <div class="left">
+            <p class="thank">感謝</p>
+            <p class="site_info">
+                <a href="https://www.oracle.com/tw/index.html" target="_blank"><span><img
+                        src="/static/my/img/footer/oracle_icon.svg">ORACLE</span></a>
+                <a href="https://www.google.com.tw/" target="_blank"><span><img
+                        src="/static/my/img/footer/google_icon.svg">Google</span></a>
+                <a href="https://www.bilibili.com/" target="_blank"><span><img
+                        src="/static/my/img/footer/bilibili_icon.svg">BiliBili</span></a>
+            </p>
+            <p class="version">
+                <span>version</span>
+                <span>4.0.0</span>
+
+            </p>
+            <p>建站日期：2022-08-29</p>
+            <p class="site_number">
+                <a href="https://www.google.com.tw"><img src="/static/my/img/footer/tree_icon.svg" alt="">備案號：123456</a>
+            </p>
+
+        </div>
+        <div class="right">
+            <div class="contact">
+                <div>
+                    <img class="svg" src="/static/my/img/footer/line_icon.svg" alt="">
+                    <img class="qrcode" src="/static/my/img/footer/line_qrcode.jpg" alt="">
+                </div>
+                <div>
+                    <a href="https://github.com/cooljohnny0223" target="_blank">
+                        <img class="svg" src="/static/my/img/footer/github_icon.svg" alt="">
+                        <img class="qrcode" src="/static/my/img/footer/github_qrcode.png" alt="">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://google.com.tw" target="_blank">
+                        <img class="svg" src="/static/my/img/footer/google_icon.svg" alt="">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://www.bilibili.com/" target="_blank">
+                        <img class="svg" src="/static/my/img/footer/bilibili_icon.svg" alt="">
+                    </a>
+                </div>
+            </div>
+            <p>聯絡信箱：im910251@gmail.com</p>
+
+        </div>
+
+    </footer>
+</div>
+<!-- 導入js-->
+<script src="/static/jquery/jquery-1.11.3.min.js"></script>
+<script src="/static/axios/axios.min.js"></script>
+<script src="/static/vue/vue.js"></script>
+<script src="/static/element-ui/element.js"></script>
+<script>
+    // 請求中間件
+    axios.interceptors.request.use(request => {
+        // 攔截請求，統一添加 csrf
+        if (request.method !== 'get') {
+            // 只要不是get請求就添加 csrf
+            let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+            request.headers['X-CSRFToken'] = csrftoken
+        }
+        return request
+    })
+    // 響應中間件
+    axios.interceptors.response.use(response => {
+        return response.data
+    })
+
+    /* 改由後端方式處理
+    // 導航條選中選單
+    function dynamic_navigation() {
+        let a_list = document.querySelectorAll('#dynamic_nav>a')
+        console.log(a_list)
+        let path = location.pathname
+        for (const a of a_list) {
+            let a_href = a.getAttribute('href')
+            if (a_href === path || a_href + '/' === path) {
+                a.classList.add('active')
+            }
+        }
+    }
+
+    dynamic_navigation()
+    */
+
+    new Vue({
+        el: '#app',
+        // 避免大括號衝突，改為中括號
+        delimiters: ["[[", "]]"],
+        data: {
+            theme: 'light',  // 默認的主題
+            this_category: 'forward', // 當前所在的位置
+            comment_content: '', // 評論內容
+            isShowSlider: false, // 懸浮目錄開關
+            slide_list: [], // 懸浮目錄內容
+            slide_text: '顯示懸浮目錄',
+            search_key: '', // 搜尋關鍵字
+
+            news_list: [], // 新聞列表
+            news_init: [
+                {
+                    name: '聯合新聞網',
+                    img: '/static/my/img/news/udn.svg',
+                    apiurl: 'https://udn.com/api/more?page=1&id=&channelId=1&cate_id=99&type=breaknews&totalRecNo=17749'
+                },
+                {
+                    name: '中時新聞網',
+                    img: '/static/my/img/news/chinatimes.png',
+                    apiurl: 'https://dinfo.chinatimes.com/get/chinatimes/hotpages/all'
+                },
+            ], // 新聞選單初始化
+            news_active: '聯合新聞網', // 默認選中項目
+            news_img_active: '/static/my/img/news/udn.svg',  // 默認選中圖片
+
+            mood_dialogVisible: false,  // 發佈心情 新增視窗開關
+
+            mood_add:{
+                name:'', // 用戶名
+                avatar_id:null, // 頭像id
+                content:'', // 內容
+                drawing:'', // 配圖
+            }
+        },
+        // 生命週期函數：所有加載完之後執行
+        created() {
+            this.init_theme()
+
+            // 不是在文章詳細頁面，就不執行
+            let path = location.pathname
+            if (path.indexOf('article') !== -1) {
+                this.init_slider()
+
+            }
+
+            if (path.indexOf('search') !== -1) {
+                this.init_search_key()
+            }
+            if (path.indexOf('/') !== -1 && path.indexOf('news') === -1) {
+                this.init_news_method(1)
+            }
+            if (path.indexOf('news') !== -1) {
+                this.init_news_method(0)
+            }
+
+
+            setTimeout(() => {
+                this.get_sidebar()
+                this.code_copy()
+            }, 1000)
+        },
+        methods: {
+            // 初始化主題
+            init_theme() {
+                // 讀取存儲的主題訊息
+                let theme = localStorage.getItem('theme')
+                // 判斷是否存在，存在則賦值
+                if (theme) {
+                    this.theme = theme
+                }
+            },
+            // 設置主題
+            setTheme(themeName) {
+                this.theme = themeName
+                // 持久化存儲
+                localStorage.setItem('theme', themeName)
+            },
+            // 選擇分類
+            switch_article_category(categoryName) {
+                this.this_category = categoryName
+            },
+            // 發佈評論
+            add_comment(nid) {
+                axios.post(`/api/article/comment/${nid}/`, {content: this.comment_content}).then(res => {
+                    if (res.code) {
+                        if (res.self) {
+                            this.$refs[`comment_${res.self}`].focus();
+                        }
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    // 停留0.5秒，刷新頁面
+                    setTimeout(() => {
+                        location.reload()
+                    }, 500)
+                })
+            },
+            // 將被評論的用戶名寫到placeholder
+            set_sub_placeholder(div, username, cid) {
+                // 找到sub_comment_textarea的textarea
+                $(div).find('textarea').attr('placeholder', `@${username}`)
+                $(div).find('textarea').attr('cid', cid)
+            },
+            // 展示子評論列表
+            show_sub_comment_list(e, username, cid) {
+                // JQuery語法--找同層的兄弟標籤
+                let div = $(e.target).parent().parent().next()
+                // 收縮
+                $(div).slideToggle()
+                this.set_sub_placeholder(div, username, cid)
+            },
+            // 子評論回復展示
+            sub_comment_set_placeholder(e, username, cid) {
+                // JQuery語法--找標籤
+                let div = $(e.target).parents('.sub_comment_list')
+                this.set_sub_placeholder(div, username, cid)
+            },
+            // 發佈子評論 (nid 文章id)
+            add_sub_comment(e, nid) {
+                axios.post(`/api/article/comment/${nid}/`, {
+                    // 獲取子評論回復內容
+                    content: $(e.target).prev().val(),
+                    // 獲取評論cid
+                    cid: $(e.target).prev().attr('cid')
+                }).then(res => {
+                    if (res.code) {
+                        if (res.self) {
+                            this.$refs[`comment_${res.self}`].focus();
+                        }
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    // 停留0.5秒，刷新頁面
+                    setTimeout(() => {
+                        location.reload()
+                    }, 500)
+                })
+            },
+            // 刪除子評論
+            del_sub_comment(nid, aid, root_comment_id) {
+                this.$confirm('此操作將永久刪除該評論，是否繼續？', '提示', {
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.delete(`/api/article/comment/${nid}/`, {
+                        data: {
+                            aid,
+                            pid: root_comment_id
+                        }
+                    }).then(res => {
+                        if (res.code) {
+                            this.$message.error(res.msg)
+                            return
+                        }
+                        this.$message.success(res.msg)
+                        // 停留0.5秒，刷新頁面
+                        setTimeout(() => {
+                            location.reload()
+                        }, 500)
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消删除'
+                    });
+                });
+
+            },
+            // 評論點讚
+            comment_digg(e, nid) {
+                axios.post(`/api/comment/digg/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    e.target.innerHTML = `點讚(${res.data})`
+                    this.$message.success(res.msg)
+                })
+            },
+            // 文章點讚
+            article_digg(e, nid) {
+                let dom = e.target
+                dom.classList.add('show')
+                axios.post(`/api/article/digg/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    $(dom).next().text(res.data)
+                    this.$message.success(res.msg)
+                })
+                let timer = null
+                timer = setTimeout(() => {
+                    dom.classList.remove('show')
+                }, 1000)
+            },
+            // 文章收藏
+            article_collects(e, nid) {
+                let dom = e.target
+                axios.post(`/api/article/collects/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    $(dom).next().text(res.data)
+                    if (res.isCollects) {
+                        dom.classList.add('show')
+                        return
+                    }
+                    dom.classList.remove('show')
+                })
+            },
+            // 回到頂部
+            go_to_top() {
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 1000)
+            },
+            // 重新整理載入顯示懸浮目錄的設定值
+            init_slider() {
+                let flag = localStorage.getItem('isShowSlider')
+                if (flag) {
+                    flag = eval(flag)
+                    if (flag) {
+                        this.isShowSlider = true
+                        this.$nextTick(() => {
+                            this.sliderChange(true)
+                        })
+                    }
+                    return
+                }
+            },
+            // 懸浮目錄是否顯示
+            sliderChange(val) {
+                let dom = this.$refs.slider
+
+                // 儲存紀錄選擇顯示或關閉
+                localStorage.setItem('isShowSlider', val)
+                if (val) {
+                    dom.classList.add('show')
+                    this.slide_text = '關閉懸浮目錄'
+                    return
+                }
+                dom.classList.remove('show')
+                this.slide_text = '顯示懸浮目錄'
+            },
+            // 懸浮目錄獲取文章內容
+            get_sidebar() {
+                let content = $('#article_content')
+                let h_list = content.children('h1,h2,h3,h4')
+                let lis = []
+                for (let i = 0; i < h_list.length; i++) {
+                    let c = h_list[i].innerText
+                    let tagName = h_list[i].tagName
+                    let tagId = h_list[i].id
+                    let ele = {
+                        tagName,
+                        c,
+                        pos: '#' + tagId
+                    }
+                    lis.push(ele)
+                }
+                lis.push({
+                    tagName: 'H1',
+                    c: '去評論吧！',
+                    pos: '.comment_submit'
+                })
+                this.slide_list = lis
+            },
+            // 縣浮目錄點擊到指定文章位置
+            go_side_bar(selector, e) {
+                // 選中 文字變色
+                $('.slider_bar .body>p').css('color', '')
+                e.target.style.color = '#ff9800'
+                let box = $(selector)
+                let pos = box.offset()
+                pos.top = pos.top - 80
+                $('html,body').animate({scrollTop: pos.top}, 1000)
+            },
+            // 代碼一鍵複製
+            code_copy() {
+                $("pre").each(function () {
+                    let copy = $('<i title="複製" class="el-icon-document-copy code-copy"></i>')
+                    $(this).append(copy)
+                })
+                // 監聽複製按鈕點擊事件
+                $('pre i.code-copy').click(e => {
+                    // 找到pre內的資料
+                    let text_list = $(e.target).prev().find('code')
+                    let text = ''
+                    // 遍歷
+                    text_list.each(function () {
+                        // 進行字串拼接
+                        text += $(this).text() + '\n'
+                    })
+                    // 進行資料複製到剪貼簿
+                    let element = $('<textarea>' + text + '</textarea>')
+                    $('body').append(element)
+                    element[0].select()
+                    document.execCommand('Copy')
+                    element.remove()
+                    // 複製成功的提示訊息
+                    this.$message.success('複製成功！')
+                })
+            },
+            // 點擊搜尋
+            search() {
+                let box = document.querySelector('.search')
+                // 收縮搜尋區塊
+                if (!box.classList.contains('show_search')) {
+                    box.classList.add('show_search')
+                    return
+                }
+                if (!this.search_key) {
+                    box.classList.remove('show_search')
+                    return
+                }
+                // 另開網頁標籤頁
+                window.open('/search/?key=' + this.search_key, name = '_blank')
+            },
+            // 初始化搜尋關鍵字
+            init_search_key() {
+                let dom = document.querySelector('.search_key_input')
+                let key = dom.getAttribute('data')
+                this.search_key = key
+            },
+            // 獲取新聞資料 name 新聞網站、img新聞圖示、apiurl新聞資料來源、flag選中、size顯示第一筆(給首頁「今日熱搜」用)
+            get_news_data(name, img, apiurl, flag, size) {
+                // 防止連點導致伺服器負擔
+                if (name == this.news_active && !flag) {
+                    return
+                }
+                this.news_active = name
+                this.news_img_active = img
+                axios.get(apiurl).then(res => {
+                    this.news_list = (name === '中時新聞網' ? res.Pages : res.lists)
+                    if (size === 1) {
+                        this.news_list = this.news_list[0]
+                    }
+                })
+            },
+            // 初始化新聞資料內容
+            init_news_method(size) {
+                this.get_news_data('聯合新聞網',
+                    '/static/my/img/news/udn.svg',
+                    'https://udn.com/api/more?page=1&id=&channelId=1&cate_id=99&type=breaknews&totalRecNo=17749',
+                    true,
+                    size
+                )
+            },
+
+            // 展示心情評論列表
+            mood_show_comment_list(e){
+                let div = $(e.target).parent().parent().next() // 選中評論的div
+                div.slideToggle()
+            }
+        }
+    })
+
+</script>
+{% block js %}
+    <script>
+        // ====[輪播圖]====
+        // 獲取需要輪播的div
+        let menu_img = document.querySelectorAll('.dynamic_shuffl')
+        // 取得圖片數量
+        let menu_length = menu_img.length
+        // 當前位置
+        let index = 0
+        // 重新整理頁面時，清除計時器
+        let timer = null;
+        clearInterval(timer)
+        // 設定定時器
+        timer = setInterval(() => {
+            index++
+            // 到頭了，返回前頭
+            if (index === menu_length) {
+                index = 0
+            }
+            // 樣式復原操作
+            for (let i of menu_img) {
+                // 透明度變為0 不顯示
+                i.style.opacity = 0
+            }
+            // 透明度變為1 顯示
+            menu_img[index].style.opacity = 1
+        }, 6000)
+
+        // ====[導航條監聽滾動事件]====
+        let nav = document.querySelector('.nav_bg')
+
+        // 解決首頁出錯問題
+        let path = location.pathname
+        // 懸浮目錄
+        let slider
+        slider = document.querySelector('.slider_bar')
+        let top1 = 0
+        if (path.indexOf('article') !== -1) {
+            top1 = $(slider).offset().top - 80 // 獲取本來與上方距離的高度
+        }
+
+        window.onscroll = function () {
+            let top = document.documentElement.scrollTop
+            if (top >= 300) {
+                nav.classList.add('show')
+            } else {
+                nav.classList.remove('show')
+            }
+
+            // 懸浮目錄
+            if (slider) {
+                if (top > top1) {
+                    slider.classList.add('fixed')
+                } else {
+                    slider.classList.remove('fixed')
+                }
+            }
+        }
+    </script>
+{% endblock %}
+{% block article_js %}
+
+{% endblock %}
+</body>
+</html>

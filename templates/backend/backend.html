@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>後台</title>
+    <!-- 導入css文件 -->
+    <link rel="stylesheet" href="/static/element-ui/element.css">
+    <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/my/css/backend/backend.css">
+    {% block css %}
+
+    {% endblock %}
+</head>
+<body>
+<div id="app">
+    <aside>
+        <div class="slogan">
+            <img src="/static/my/img/backend/slogan.png" alt="">
+        </div>
+        <ul>
+            <li><a href="/">首頁</a></li>
+            <li><a href="/backend/">個人中心</a></li>
+            <li><a href="/backend/edit_avatar">修改頭象</a></li>
+            <li><a href="/backend/reset_password">修改密碼</a></li>
+            <!-- 超級管理員-顯示多的功能 -->
+            {% if request.user.is_superuser %}
+                <li><a href="/backend/add_article">添加文章</a></li>
+            {% endif %}
+            <li><a href="/logout/">登入退出</a></li>
+        </ul>
+    </aside>
+    <main>
+        {% csrf_token %}
+        {% block main %}
+            <div class="user_info">
+                <div class="left">
+                    <img src="/static/my/img/backend/johnny_pic.png" alt="">
+                </div>
+                <div class="right">
+                    <div class="item"><span><b>用戶名：</b>johnny</span></div>
+                    <div class="item"><span><b>註冊時間：</b>2022-09-02</span></div>
+                    <div class="item"><span><b>上次登入時間：</b>2022-09-05</span></div>
+                    <div class="item"><span><b>帳號積分：</b>20</span></div>
+                    <div class="item"><span><b>電子信箱：</b>im910251@gmail.com</span></div>
+                    <div class="item"><span><b>手機號碼：</b>0935030320</span></div>
+
+                </div>
+            </div>
+            <div class="actions">
+                <div class="item">
+                    <el-button>完善信息</el-button>
+                </div>
+                <div class="item">
+                    <el-button type="success">修改頭像</el-button>
+                </div>
+                <div class="item">
+                    <el-button type="warning">修改密碼</el-button>
+                </div>
+                <div class="item">
+                    <el-button type="danger">登入退出</el-button>
+                </div>
+            </div>
+            {% block content %}
+                <div class="collection_article_all">
+                    <p>我收藏的文章</p>
+                    <div class="article_list">
+                        <div class="item">
+                            <div class="left">
+                                <img src="https://media.istockphoto.com/photos/transparent-umbrella-under-rain-against-water-drops-splash-background-picture-id1257951336?k=20&m=1257951336&s=612x612&w=0&h=KMMSYxYzjtqg7NAvNTO8ahMz84J7QW0FjvMSZ12Bq6I="
+                                     alt="">
+                            </div>
+                            <div class="right">
+                                <h4>Python-PyCharm程式碼編輯技巧</h4>
+                                <p>
+                                    在位址欄中冒號的後面就是port。如果發現port碼異常（比如大於5000），而ForeignAddress中的位址又不是正常的網路位址，那麼可以判斷你的機器正被ForeignAddress中表示的遠端電腦所窺視著。在對應行的ForeignAddress中顯示的IP位址就是目前非法連接你電腦的木馬用戶端。</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="left">
+                                <img src="https://media.istockphoto.com/photos/transparent-umbrella-under-rain-against-water-drops-splash-background-picture-id1257951336?k=20&m=1257951336&s=612x612&w=0&h=KMMSYxYzjtqg7NAvNTO8ahMz84J7QW0FjvMSZ12Bq6I="
+                                     alt="">
+                            </div>
+                            <div class="right">
+                                <h4>Python-PyCharm程式碼編輯技巧</h4>
+                                <p>
+                                    在位址欄中冒號的後面就是port。如果發現port碼異常（比如大於5000），而ForeignAddress中的位址又不是正常的網路位址，那麼可以判斷你的機器正被ForeignAddress中表示的遠端電腦所窺視著。在對應行的ForeignAddress中顯示的IP位址就是目前非法連接你電腦的木馬用戶端。</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="left">
+                                <img src="https://media.istockphoto.com/photos/transparent-umbrella-under-rain-against-water-drops-splash-background-picture-id1257951336?k=20&m=1257951336&s=612x612&w=0&h=KMMSYxYzjtqg7NAvNTO8ahMz84J7QW0FjvMSZ12Bq6I="
+                                     alt="">
+                            </div>
+                            <div class="right">
+                                <h4>Python-PyCharm程式碼編輯技巧</h4>
+                                <p>
+                                    在位址欄中冒號的後面就是port。如果發現port碼異常（比如大於5000），而ForeignAddress中的位址又不是正常的網路位址，那麼可以判斷你的機器正被ForeignAddress中表示的遠端電腦所窺視著。在對應行的ForeignAddress中顯示的IP位址就是目前非法連接你電腦的木馬用戶端。</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="left">
+                                <img src="https://media.istockphoto.com/photos/transparent-umbrella-under-rain-against-water-drops-splash-background-picture-id1257951336?k=20&m=1257951336&s=612x612&w=0&h=KMMSYxYzjtqg7NAvNTO8ahMz84J7QW0FjvMSZ12Bq6I="
+                                     alt="">
+                            </div>
+                            <div class="right">
+                                <h4>Python-PyCharm程式碼編輯技巧</h4>
+                                <p>
+                                    在位址欄中冒號的後面就是port。如果發現port碼異常（比如大於5000），而ForeignAddress中的位址又不是正常的網路位址，那麼可以判斷你的機器正被ForeignAddress中表示的遠端電腦所窺視著。在對應行的ForeignAddress中顯示的IP位址就是目前非法連接你電腦的木馬用戶端。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        {% endblock %}
+    </main>
+</div>
+<!-- 導入js-->
+<script src="/static/axios/axios.min.js"></script>
+<script src="/static/vue/vue.js"></script>
+<script src="/static/element-ui/element.js"></script>
+{% block js %}
+
+{% endblock %}
+<script>
+    // 請求中間件
+    axios.interceptors.request.use(
+        request => {
+            // 攔截請求，統一添加 csrf
+            if (request.method !== 'get') {
+                // 只要不是get請求就添加 csrf
+                let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                request.headers['X-CSRFToken'] = csrftoken
+            }
+            return request
+        },
+    )
+    // 響應中間件
+    axios.interceptors.response.use(
+        response => {
+            return response.data
+        }
+    )
+    new Vue({
+        el: '#app',
+        data: {
+            // 是否展開添加文章的側邊欄
+            add_drawer: false,
+            // 選中的
+            add_article_activeNames: ['1'],
+            // 文章分類的id
+            category_id: '',
+            // 文章分類
+            category_options: [
+                {value: 0, label: '前端'},
+                {value: 1, label: '後端'},
+                {value: 2, label: '項目相關'},
+            ],
+            // 選中的文章標籤
+            tags: [],
+            // 是否上推薦
+            recommend: true,
+            // 是否加密
+            pwd_active: false,
+            // 文章加密密碼
+            pwd: '',
+            // 文章封面id
+            cover_id: '',
+            // 文章標題
+            title: '',
+            // 文章簡介
+            abstract: '',
+        },
+        // 生命週期
+        created() {
+            // 使用網頁路徑判斷添加文章、還是編輯文章
+            let path = location.pathname
+            let index = path.indexOf('add_article')
+            // 添加文章-隨機選擇封面圖片
+            let img = document.getElementById("cover_img")
+            // 根據index值來判斷 -1 代表未找到，則是編輯文章
+            if (index !== -1) {
+                // 添加文章
+                this.init_add_article(img)
+            } else {
+                // 編輯文章
+                this.init_edit_article(img)
+            }
+        },
+        methods: {
+            add_handleClose(done) {
+                done()
+                // 添加文章關閉之前的函數
+                /*
+                this.$confirm('確認關閉？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {
+                    });
+                 */
+            },
+            // 選擇文章封面圖片
+            select_cover(val) {
+                // 使用定時器，運行異步操作
+                setTimeout(() => {
+                    let v = document.querySelector('.article_cover input').value
+                    let cover = document.getElementById('cover_img')
+                    cover.src = v
+                }, 1)
+            },
+            // 添加文章和編輯文章的資料
+            add_edit_article() {
+                let data = {
+                    title: this.title,
+                    abstract: this.abstract,
+                    cover_id: this.cover_id,
+                    pwd: this.pwd,
+                    recommend: this.recommend,
+                    tags: this.tags,
+                    category: this.category_id,
+                    content: editor.querySelector('.editormd-markdown-textarea').value
+                }
+                return data
+            },
+            // 添加文章和編輯文章的回調
+            add_edit_article_callback(res) {
+                if (res.code) {
+                    // 發佈失敗
+                    this.$message.error(res.msg)
+                    return
+                }
+                // 發佈成功
+                this.$message.success(res.msg)
+                setTimeout(() => {
+                    location.href = `/article/${res.data}`
+                }, 1000)
+            },
+            // 添加文章的函數
+            add_article() {
+                let data = this.add_edit_article()
+                axios.post('/api/article/', data).then(res => {
+                    this.add_edit_article_callback(res)
+                })
+            },
+            // 編輯文章的函數
+            edit_article(nid) {
+                let data = this.add_edit_article()
+                axios.put(`/api/article/${nid}/`, data).then(res => {
+                    this.add_edit_article_callback(res)
+                })
+            },
+            // 添加文章的初始化
+            init_add_article(img) {
+                let cover_list = eval(img.getAttribute('data')) // 加上eval可轉換成陣列
+                let item = cover_list[Math.floor(Math.random() * cover_list.length)]  // 隨機取得一個封面圖片資料
+                img.setAttribute('src', item.url)
+                this.cover_id = item.nid.toString()
+            },
+            // 編輯文章的初始化
+            init_edit_article(img) {
+                let box = document.getElementById('edit_info')
+                this.title = box.getAttribute('data_title')
+                this.abstract = box.getAttribute('data_abstract')
+                let category_id = box.getAttribute('data_category')
+                if (category_id !== 'None') {
+                    this.category_id = category_id
+                }
+                // 使用eval變成陣列
+                this.tags = eval(box.getAttribute('data_tags'))
+                let cover_url = box.getAttribute('data_cover_url')
+                img.setAttribute('src', cover_url)
+                this.cover_id = box.getAttribute('data_cover_id')
+                let recommend = box.getAttribute('data_recommend')
+                if (recommend === 'True') {
+                    this.recommend = true
+                } else {
+                    this.recommend = false
+                }
+                let pwd = box.getAttribute('data_pwd')
+                if (pwd !== 'None') {
+                    this.pwd = pwd
+                    this.pwd_active = true
+                }
+            },
+        }
+    })
+</script>
+</body>
+</html>

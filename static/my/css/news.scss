@@ -1,0 +1,139 @@
+.main {
+  width: 1200px; // 定寬，最主要是為了防止樣式錯亂
+  .news_content {
+    display: flex; // 左右排版
+    min-height: 800px; // 固高 最小高度
+    background-color: white; // 背景顏色
+    border-radius: 5px; // 圓角
+
+    .left {
+      width: 20%; // 左邊寬度
+      border-right: 1px solid #f0eeee; // 右框線
+      ul {
+        margin-top: 20px; // 向上外邊距
+        img {
+          height: 25px; // 圖片高度
+          border-radius: 5px; // 圓角
+          margin-right: 10px; // 左外邊距
+        }
+
+        li {
+          color: #333333; // 文字顏色
+          height: 50px; // 高度
+          display: flex; // 左右排版
+          align-items: center; // 垂直居中
+          padding-left: 10%; // 左內邊距
+          transition: all 0.1s; // 過渡動畫
+        }
+
+        li.active {
+          background-color: #3a8ee6; // 背景顏色
+          color: white; // 文字顏色
+        }
+
+        li:not(li.active):hover {
+          // 選中非active的
+          cursor: pointer; // 顯示小手可點擊
+
+          &:hover {
+            color: #3a8ee6; // 文字顏色
+          }
+        }
+      }
+    }
+
+    .right {
+      width: 80%; // 右邊寬度
+      padding: 20px; // 上下左右內邊距
+      .title {
+        display: flex; // 左右排版
+        align-items: center;
+        border-bottom: 1px solid #f0eeee; // 下框線
+        padding-bottom: 10px; // 下面內邊距
+        img {
+          width: 50px; // 圖片寬度
+          border-radius: 50%; // 圓角 讓圖片變成圓形的
+          margin-right: 10px; // 右邊外邊距
+        }
+
+        h2 {
+          font-size: 26px; // 字型大小
+        }
+      }
+
+      .body {
+        margin-top: 10px; // 上面外邊距
+        ul {
+          list-style: none; // 去除默認樣式
+          li {
+            height: 40px; // 高度
+            display: flex; // 左右排版
+            align-items: center; // 垂直居中
+            font-size: 16px; // 文字大小
+            .index {
+              width: 20px; // 寬度
+              height: 20px; // 高度
+              border-radius: 5px; // 圓角
+              background-color: #adaaaa; // 背景顏色
+              color: #333333; // 文字顏色
+              display: flex; // 左右排版
+              justify-content: center; // 垂直居中
+              align-items: center; // 垂直居中
+              margin-right: 20px; // 向右外邊距20px
+            }
+
+            &:nth-child(1) {
+              .index {
+                background-color: #e0102a; // 背景顏色
+                color: white; // 文字顏色
+              }
+            }
+
+            &:nth-child(2) {
+              .index {
+                background-color: #228308; // 背景顏色
+                color: white; // 文字顏色
+              }
+            }
+
+            &:nth-child(3) {
+              .index {
+                background-color: #316ae1; // 背景顏色
+                color: white; // 文字顏色
+              }
+            }
+
+            a {
+              width: 77%; // 寬度
+              color: #333333; // 文字顏色
+              transition: all 0.2s; // 過渡動畫
+
+              &:hover {
+                background-color: #3a8ee6;
+                color: white; // 文字顏色
+              }
+            }
+
+            .num {
+              width: 20%; // 寬度
+              display: flex; // 左右排版
+              justify-content: right; // 向右對齊
+            }
+          }
+        }
+      }
+    }
+  }
+  .thank{
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+    justify-content: right;
+    a{
+      color: #333333;
+      font-size: 12px;
+    }
+  }
+
+
+}

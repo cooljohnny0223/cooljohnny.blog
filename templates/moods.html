@@ -1,0 +1,84 @@
+{% extends 'index.html' %}
+{% load my_tag my_filter %}
+{% block css %}
+    <link rel="stylesheet" href="/static/my/css/moods.css">
+{% endblock %}
+{% block main %}
+    <div class="main">
+        <el-dialog
+                title="發佈心情"
+                :visible.sync="mood_dialogVisible"
+                width="50%">
+            <div class="add_mood_content body">
+                <div>
+                    <label for="">用戶名</label>
+                    <el-input id="mood_add_name" v-model="mood_add.name" placeholder="請輸入用戶名"></el-input>
+                </div>
+                <div>
+                    <label for="">頭像</label>
+                    <ul class="flex avatar_list">
+                        {% for avatar in avatar_list %}
+                            <li>
+                                <el-radio v-model="mood_add.avatar_id" label="{{ avatar.nid }}">
+                                    <img src="{{ avatar.url.url }}" alt="">
+                                </el-radio>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <label for="">心情內容</label>
+                    <el-input id="mood_add_content" v-model="mood_add.content" type="textarea" :row="4" resize="none"
+                              placeholder="請輸入心情內容"></el-input>
+                </div>
+                <div>
+                    <label for="mood_add_drawing">配圖</label>
+                    <el-input id="mood_add_drawing" v-model="mood_add.drawing" type="textarea" :row="4" resize="none"
+                              placeholder="請輸入配圖"></el-input>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="mood_dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="mood_dialogVisible = false">确 定</el-button>
+                </span>
+            </div>
+        </el-dialog>
+
+        <el-button class="add_mood" @click="mood_dialogVisible = true">發佈心情</el-button>
+        <div class="mood flex">
+            <div class="left">
+                <img src="/static/my/img/moods/pic01.png">
+            </div>
+            <div class="right">
+                <h3 class="name">Johnny</h3>
+                <p class="content">歡迎大家來到尚豪部落格</p>
+                <div class="info flex">
+                    <span class="date">1小時前</span>
+                    <span class="three">
+                        <span>點讚（1）</span>
+                        <span @click="mood_show_comment_list($event)">評論（1）</span>
+                        <span class="delete">刪除</span>
+                    </span>
+                </div>
+                <ul class="sub_comment_list">
+                    <li class="flex">
+                        <div class="left">
+                            <img src="/static/my/img/moods/pic02.png">
+                        </div>
+                        <div class="right">
+                            <h4 class="name">Honey</h4>
+                            <p class="content">簽到！</p>
+                            <div class="info flex">
+                                <span class="date">1小時前</span>
+                                <span class="three">
+                                    <span>點讚（1）</span>
+                                    <span class="delete">刪除</span>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <el-button type="primary" class="rep_mood" plain>回覆這條心情</el-button>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

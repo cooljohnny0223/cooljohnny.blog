@@ -1,0 +1,114 @@
+.main {
+  width: 1200px; // 固定寬度
+  .add_mood {
+    width: 100%; // 寬度
+  }
+
+  .mood {
+    margin-top: 40px; // 向上外邊距
+    .left {
+      width: 90px; // 寬度
+      img {
+        width: 70px; // 寬度
+      }
+    }
+
+    .right {
+      width: calc(100% - 90px); // 寬度
+      background-color: white; // 背景顏色
+      border-radius: 5px; // 圓角
+      position: relative; // 相對定位
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); // 邊框陰影
+      padding: 10px 20px; // 內邊距
+
+      &::before {
+        content: ''; // 假元素內容
+        display: block; // 排版
+        position: absolute; // 絕對定位
+        left: -20px; // 左邊座標
+        top: 23px; // 上方座標
+        border-width: 10px; // 框線寬度
+        border-style: solid; // 框線樣式-實線
+        border-color: transparent white transparent transparent; // 框線填色(上右下左)
+      }
+
+      .name {
+        margin-bottom: 10px; // 向下外邊距
+      }
+
+      .content {
+        margin-bottom: 10px; // 向下外邊距
+      }
+
+      .info {
+        font-size: 14px; // 字型大小
+        justify-content: space-between; // 平均分配「元素」位置，但左右兩側會貼齊主軸的起點、終點
+
+        > .three > span {
+          cursor: pointer; // 顯示連結手勢
+          margin-left: 10px; // 左邊外邊距
+
+        }
+
+        .delete {
+          color: red; // 字型顏色
+        }
+      }
+
+      .sub_comment_list {
+        margin-top: 10px; // 上方邊距
+        margin-bottom: 10px; // 下方邊距
+
+        li {
+
+          .left {
+            width: 70px; // 寬度
+
+            img {
+              width: 50px; // 寬度
+            }
+          }
+
+          .right {
+            width: calc(100% - 70px); // 寬度
+            box-shadow: none; // 邊框陰影
+          }
+        }
+      }
+
+      .rep_mood {
+        margin-top: 10px; // 上方邊距
+        width: 100%; // 寬度
+      }
+    }
+  }
+
+  .add_mood_content {
+    > div {
+      margin-bottom: 20px; // 下面外邊距
+
+      > div, > ul {
+        margin-top: 10px; // 上面外邊距
+      }
+
+      .avatar_list {
+        flex-wrap: wrap; // 超出部份換行
+        list-style: none; // 取消默認樣式
+
+        > li {
+          margin-right: 10px; // 右邊外邊距
+          margin-bottom: 10px; // 下面外邊距
+          .el-radio{
+            display: flex; // 左右排版
+            align-items: center;  // 垂直置中
+          }
+        }
+      }
+
+      img {
+        width: 50px; // 寬度
+        height: 54px; // 高度
+      }
+    }
+  }
+}
