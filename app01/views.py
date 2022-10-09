@@ -113,6 +113,7 @@ def news(request):
 def moods(request):
     # 查詢所有的頭像
     avatar_list = Avatars.objects.all()
+    mood_list = Moods.objects.all()
     return render(request, 'moods.html', locals())
 
 

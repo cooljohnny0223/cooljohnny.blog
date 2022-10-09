@@ -40,6 +40,15 @@
         margin-bottom: 10px; // 向下外邊距
       }
 
+      .drawing{
+        img{
+          height: 120px; // 高度
+          border-radius: 5px; // 圓角
+          margin-right: 10px;  // 向右外邊距
+          margin-bottom: 10px; // 向下外邊距
+        }
+      }
+
       .info {
         font-size: 14px; // 字型大小
         justify-content: space-between; // 平均分配「元素」位置，但左右兩側會貼齊主軸的起點、終點

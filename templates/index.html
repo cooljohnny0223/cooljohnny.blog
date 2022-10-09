@@ -689,11 +689,24 @@
                     size
                 )
             },
-
             // 展示心情評論列表
             mood_show_comment_list(e){
                 let div = $(e.target).parent().parent().next() // 選中評論的div
                 div.slideToggle()
+            },
+            // 發佈心情
+            mood_add_method(){
+                axios.post('/api/moods/', this.mood_add).then(res=>{
+                   if (res.code){
+                       this.$message.error(res.msg)
+                       this.$refs[`mood_add__${res.self}`].focus()
+                       return
+                   }
+                   this.$message.success(res.msg)
+                    setTimeout(()=>{
+                        location.reload()
+                    },1000)
+                })
             }
         }
     })

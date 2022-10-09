@@ -116,3 +116,19 @@ def generate_advert(advert_list):
             html_list.append(
                 f'<div><a href="{i.href}" title="{i.title}" target="_blank"><img src="{url}"></a></div>')
     return mark_safe(''.join(html_list))
+
+
+# 心情配圖
+@register.simple_tag
+def generate_drawing(drawing: str):
+    if not drawing:
+        return ''
+    #drawing = drawing.replace('；', ';').replace('\n', ';')
+    # 改為中文的、來進行分割
+    drawing = drawing.replace('\n', '、')
+    drawing_list = drawing.split('、')
+    html_s = ''
+    for i in drawing_list:
+        html_s += f'<img src="{i}" alt="">'
+
+    return mark_safe(html_s)

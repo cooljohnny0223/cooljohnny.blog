@@ -210,7 +210,7 @@ class History(models.Model):
 class Moods(models.Model):
     nid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=16, verbose_name='發佈人')
-    create_date = models.DateField(verbose_name='發佈時間', null=True)
+    create_date = models.DateField(verbose_name='發佈時間', auto_now=True)
     content = models.TextField(verbose_name='心情內容')
     drawing = models.TextField(verbose_name='配圖組，以;隔開', null=True, blank=True)
     comment_count = models.IntegerField(verbose_name='評論數', default=0)
