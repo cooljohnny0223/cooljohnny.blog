@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from api.views import login, article, comment,mood
+from api.views import login, article, comment, mood
 
 urlpatterns = [
     path('login/', login.LoginView.as_view()),  # 登入
@@ -10,5 +10,7 @@ urlpatterns = [
     re_path(r'comment/digg/(?P<nid>\d+)/', comment.CommentDiggView.as_view()),  # 評論點讚
     re_path(r'article/digg/(?P<nid>\d+)/', article.ArticleDiggView.as_view()),  # 文章點讚
     re_path(r'article/collects/(?P<nid>\d+)/', article.ArticleCollectsView.as_view()),  # 文章收藏
+
     path('moods/', mood.MoodsView.as_view()),  # 發佈心情
+    re_path(r'moods/(?P<nid>\d+)/', mood.MoodsView.as_view()),  # 刪除心情
 ]

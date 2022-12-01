@@ -1,0 +1,826 @@
+-- --------------------------------------------------------
+-- 主機:                           127.0.0.1
+-- 伺服器版本:                        5.7.39-log - MySQL Community Server (GPL)
+-- 伺服器作業系統:                      Win64
+-- HeidiSQL 版本:                  11.1.0.6116
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- 傾印 cj_blog 的資料庫結構
+CREATE DATABASE IF NOT EXISTS `cj_blog` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `cj_blog`;
+
+-- 傾印  資料表 cj_blog.app01_advert 結構
+CREATE TABLE IF NOT EXISTS `app01_advert` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(32) DEFAULT NULL,
+  `href` varchar(200) NOT NULL,
+  `img` varchar(100) DEFAULT NULL,
+  `img_list` longtext,
+  `is_show` tinyint(1) NOT NULL,
+  `author` varchar(32) DEFAULT NULL,
+  `abstract` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_advert 的資料：~2 rows (近似值)
+/*!40000 ALTER TABLE `app01_advert` DISABLE KEYS */;
+REPLACE INTO `app01_advert` (`nid`, `title`, `href`, `img`, `img_list`, `is_show`, `author`, `abstract`) VALUES
+	(1, '廣告1', 'https://www.google.com.tw', '', '/media/advert/ad-1.jpg;/media/advert/ad-2.jpg', 1, '廣告主', '廣告1簡介'),
+	(2, '廣告2', 'https://www.google.com.tw', 'advert/ad-2.jpg', '', 1, '廣告主', '廣告2簡介');
+/*!40000 ALTER TABLE `app01_advert` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_articles 結構
+CREATE TABLE IF NOT EXISTS `app01_articles` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(32) DEFAULT NULL,
+  `abstract` varchar(128) DEFAULT NULL,
+  `content` longtext,
+  `create_date` datetime(6) DEFAULT NULL,
+  `change_date` datetime(6) DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `recommend` tinyint(1) NOT NULL,
+  `look_count` int(11) NOT NULL,
+  `comment_count` int(11) NOT NULL,
+  `digg_count` int(11) NOT NULL,
+  `collects_count` int(11) NOT NULL,
+  `category` int(11) DEFAULT NULL,
+  `author` varchar(16) DEFAULT NULL,
+  `source` varchar(32) DEFAULT NULL,
+  `cover_id` int(11) DEFAULT NULL,
+  `pwd` varchar(32) DEFAULT NULL,
+  `link` varchar(200) DEFAULT NULL,
+  `word` int(11) NOT NULL,
+  PRIMARY KEY (`nid`),
+  KEY `app01_articles_cover_id_02b692b0_fk_app01_cover_nid` (`cover_id`),
+  CONSTRAINT `app01_articles_cover_id_02b692b0_fk_app01_cover_nid` FOREIGN KEY (`cover_id`) REFERENCES `app01_cover` (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_articles 的資料：~12 rows (近似值)
+/*!40000 ALTER TABLE `app01_articles` DISABLE KEYS */;
+REPLACE INTO `app01_articles` (`nid`, `title`, `abstract`, `content`, `create_date`, `change_date`, `status`, `recommend`, `look_count`, `comment_count`, `digg_count`, `collects_count`, `category`, `author`, `source`, `cover_id`, `pwd`, `link`, `word`) VALUES
+	(5, '測試', 'api 新增urls.py\n123123123123123123123123123123123123123 123123123123123123123123123123123123', '# api 新增urls.py\n123123123123123123123123123123123123123\n123123123123123123123123123123123123123\n123123123123123123123123123123123123123\n123123123123123123123123123123123123123\n123123123123123123123123123123123123123\n## api views資料夾下新增「article.py」\n123123123123123123123123123123123123123\n\n123123123123123123123123123123123123123123123123123123123123123123123123123123\n\n123123123123123123123123123123123123123123123123123123123123123123123123123123\n### 後台安裝Markdown  用來解析Markdown內容\n指令「pip install Markdown」\n123123123123123123123123123123123123123\n123123123123123123123123123123123123123v\n123123123123123123123123123123123123123123123123123123123123123123123123123123\n#### 後台安裝pyquery  用來解析html內容\n指令 「pip install pyquery」\n\n123123123123123123123123123123123123123123123123123123123123123123123123123123\n123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123\n123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123', '2022-09-06 02:55:40.095291', '2022-09-23 11:32:53.946978', 1, 0, 6, 5, 15, 1, 2, '尚豪', '尚豪部落格', 5, '666', NULL, 1034),
+	(12, '測試文章-文章標頭文字', '測試文章\n1\n1111111111111111111111111111111111111111111111111111111111111\n2\n2222222222222222222', '# 測試文章\n## 1\n1111111111111111111111111111111111111111111111111111111111111\n### 2\n222222222222222222222222222222222222222222222222222222222222\n#### 3\n33333333333333333333333333333333333333333333333333333333333\n##### 4\n44444444444444444444444444444444444444444444444444444444\n\n```html\n內容1\n1\n```\n```html\n內容2\n2\n\n2\n```\n```html\n內容3\n3\n3\n\n3\n```', '2022-09-23 00:58:50.694469', '2022-09-23 11:32:53.941976', 1, 1, 2, 0, 1, 0, 1, '尚豪', '尚豪部落格', 4, NULL, NULL, 335),
+	(13, '1', '1', '1', '2022-09-22 10:58:56.304534', '2022-09-23 11:32:53.935129', 1, 1, 4, 0, 12, 0, 1, '尚豪', '尚豪部落格', 6, NULL, NULL, 1),
+	(14, '2', '2', '2\nJavaScript', '2022-09-22 10:59:09.490492', '2022-09-23 11:32:53.929256', 1, 1, 4, 0, 0, 0, 1, '尚豪', '尚豪部落格', 5, NULL, NULL, 12),
+	(15, '3', '3', '3\npython', '2022-09-22 10:59:19.865336', '2022-09-23 11:32:53.921161', 1, 1, 5, 0, 0, 0, 1, '尚豪', '尚豪部落格', 7, NULL, NULL, 8),
+	(16, '4', '4', '4', '2022-09-22 10:59:32.800350', '2022-09-23 11:32:53.915303', 1, 1, 0, 0, 0, 0, 1, '尚豪', '尚豪部落格', 4, NULL, NULL, 1),
+	(17, '5', '5', '5\nVue', '2022-09-22 10:59:43.567902', '2022-09-23 11:32:53.909062', 1, 1, 5, 0, 0, 0, 1, '尚豪', '尚豪部落格', 8, NULL, NULL, 5),
+	(18, '6', '6', '6', '2022-09-22 10:59:57.479286', '2022-09-23 11:32:53.903992', 1, 1, 0, 0, 0, 0, 1, '尚豪', '尚豪部落格', 5, NULL, NULL, 1),
+	(19, '7', '7', '7', '2022-09-22 11:00:08.602305', '2022-09-23 11:32:53.897527', 1, 1, 1, 0, 0, 0, 1, '尚豪', '尚豪部落格', 8, NULL, NULL, 1),
+	(20, '8', '8', '8', '2022-09-22 11:00:18.450316', '2022-09-23 11:32:53.891578', 1, 1, 0, 0, 0, 0, 2, '尚豪', '尚豪部落格', 4, NULL, NULL, 1),
+	(21, '9', '9', '9', '2022-09-22 11:00:29.693916', '2022-09-23 11:32:53.882177', 1, 1, 0, 0, 0, 0, 2, '尚豪', '尚豪部落格', 6, NULL, NULL, 1),
+	(22, '10', '10', '10', '2022-09-22 11:00:45.682203', '2022-09-23 11:32:53.876316', 1, 1, 9, 0, 27, 0, 2, '尚豪', '尚豪部落格', 8, NULL, NULL, 2);
+/*!40000 ALTER TABLE `app01_articles` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_articles_tag 結構
+CREATE TABLE IF NOT EXISTS `app01_articles_tag` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `articles_id` int(11) NOT NULL,
+  `tags_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app01_articles_tag_articles_id_tags_id_f201463d_uniq` (`articles_id`,`tags_id`),
+  KEY `app01_articles_tag_tags_id_e0760570_fk_app01_tags_nid` (`tags_id`),
+  CONSTRAINT `app01_articles_tag_articles_id_c377df22_fk_app01_articles_nid` FOREIGN KEY (`articles_id`) REFERENCES `app01_articles` (`nid`),
+  CONSTRAINT `app01_articles_tag_tags_id_e0760570_fk_app01_tags_nid` FOREIGN KEY (`tags_id`) REFERENCES `app01_tags` (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_articles_tag 的資料：~8 rows (近似值)
+/*!40000 ALTER TABLE `app01_articles_tag` DISABLE KEYS */;
+REPLACE INTO `app01_articles_tag` (`id`, `articles_id`, `tags_id`) VALUES
+	(55, 5, 3),
+	(56, 5, 5),
+	(59, 14, 2),
+	(58, 15, 1),
+	(57, 17, 3),
+	(60, 22, 2),
+	(61, 22, 4),
+	(62, 22, 6);
+/*!40000 ALTER TABLE `app01_articles_tag` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_avatars 結構
+CREATE TABLE IF NOT EXISTS `app01_avatars` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(100) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_avatars 的資料：~7 rows (近似值)
+/*!40000 ALTER TABLE `app01_avatars` DISABLE KEYS */;
+REPLACE INTO `app01_avatars` (`nid`, `url`) VALUES
+	(2, 'avatars/Johnny.png'),
+	(5, 'avatars/pic01.png'),
+	(6, 'avatars/pic02.png'),
+	(7, 'avatars/pic03.png'),
+	(8, 'avatars/pic04.png'),
+	(9, 'avatars/pic05.png'),
+	(10, 'avatars/pic06.png');
+/*!40000 ALTER TABLE `app01_avatars` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_comment 結構
+CREATE TABLE IF NOT EXISTS `app01_comment` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `digg_count` int(11) NOT NULL,
+  `content` longtext NOT NULL,
+  `comment_count` int(11) NOT NULL,
+  `drawing` longtext,
+  `create_time` datetime(6) NOT NULL,
+  `article_id` int(11) NOT NULL,
+  `parent_comment_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`nid`),
+  KEY `app01_comment_article_id_2bf4f73b_fk_app01_articles_nid` (`article_id`),
+  KEY `app01_comment_parent_comment_id_6a8024a5_fk_app01_comment_nid` (`parent_comment_id`),
+  KEY `app01_comment_user_id_7f913f03_fk_app01_userinfo_nid` (`user_id`),
+  CONSTRAINT `app01_comment_article_id_2bf4f73b_fk_app01_articles_nid` FOREIGN KEY (`article_id`) REFERENCES `app01_articles` (`nid`),
+  CONSTRAINT `app01_comment_parent_comment_id_6a8024a5_fk_app01_comment_nid` FOREIGN KEY (`parent_comment_id`) REFERENCES `app01_comment` (`nid`),
+  CONSTRAINT `app01_comment_user_id_7f913f03_fk_app01_userinfo_nid` FOREIGN KEY (`user_id`) REFERENCES `app01_userinfo` (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_comment 的資料：~5 rows (近似值)
+/*!40000 ALTER TABLE `app01_comment` DISABLE KEYS */;
+REPLACE INTO `app01_comment` (`nid`, `digg_count`, `content`, `comment_count`, `drawing`, `create_time`, `article_id`, `parent_comment_id`, `user_id`) VALUES
+	(1, 7, '1', 5, NULL, '2022-09-13 14:07:33.046893', 5, NULL, 4),
+	(2, 3, '1', 0, NULL, '2022-09-13 14:07:43.552033', 5, 1, 4),
+	(3, 1, '2', 0, NULL, '2022-09-13 14:09:09.939495', 5, 1, 1),
+	(4, 4, '3', 0, NULL, '2022-09-13 14:09:18.038315', 5, 1, 1),
+	(13, 0, '3的回覆\n', 0, NULL, '2022-09-27 10:01:58.038565', 5, 4, 2);
+/*!40000 ALTER TABLE `app01_comment` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_cover 結構
+CREATE TABLE IF NOT EXISTS `app01_cover` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(100) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_cover 的資料：~5 rows (近似值)
+/*!40000 ALTER TABLE `app01_cover` DISABLE KEYS */;
+REPLACE INTO `app01_cover` (`nid`, `url`) VALUES
+	(4, 'article_img/IMG_20220101_110829.jpg'),
+	(5, 'article_img/IMG_0483.JPG'),
+	(6, 'article_img/IMG_0459.JPG'),
+	(7, 'article_img/IMG_0165.JPG'),
+	(8, 'article_img/IMG_20220320_130156.jpg');
+/*!40000 ALTER TABLE `app01_cover` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_feedback 結構
+CREATE TABLE IF NOT EXISTS `app01_feedback` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(254) NOT NULL,
+  `content` longtext NOT NULL,
+  `stats` tinyint(1) NOT NULL,
+  `processing_content` longtext,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_feedback 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_feedback` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_history 結構
+CREATE TABLE IF NOT EXISTS `app01_history` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(32) NOT NULL,
+  `content` longtext NOT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `drawing` longtext,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_history 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_history` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_menu 結構
+CREATE TABLE IF NOT EXISTS `app01_menu` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_title` varchar(16) DEFAULT NULL,
+  `menu_title_en` varchar(32) DEFAULT NULL,
+  `title` varchar(32) DEFAULT NULL,
+  `abstract` longtext,
+  `abstract_item` int(11) NOT NULL,
+  `rotation` tinyint(1) NOT NULL,
+  `menu_ratation` tinyint(1) NOT NULL,
+  `menu_time` int(11) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_menu 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_menu` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_menuimg 結構
+CREATE TABLE IF NOT EXISTS `app01_menuimg` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(100) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_menuimg 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_menuimg` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_menuimg` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_menu_menu_url 結構
+CREATE TABLE IF NOT EXISTS `app01_menu_menu_url` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `menu_id` int(11) NOT NULL,
+  `menuimg_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app01_menu_menu_url_menu_id_menuimg_id_9b80b024_uniq` (`menu_id`,`menuimg_id`),
+  KEY `app01_menu_menu_url_menuimg_id_c89e39bd_fk_app01_menuimg_nid` (`menuimg_id`),
+  CONSTRAINT `app01_menu_menu_url_menu_id_fe74c303_fk_app01_menu_nid` FOREIGN KEY (`menu_id`) REFERENCES `app01_menu` (`nid`),
+  CONSTRAINT `app01_menu_menu_url_menuimg_id_c89e39bd_fk_app01_menuimg_nid` FOREIGN KEY (`menuimg_id`) REFERENCES `app01_menuimg` (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_menu_menu_url 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_menu_menu_url` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_menu_menu_url` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_moodcomment 結構
+CREATE TABLE IF NOT EXISTS `app01_moodcomment` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(16) DEFAULT NULL,
+  `content` longtext NOT NULL,
+  `digg_count` int(11) NOT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `avatar_id` int(11) DEFAULT NULL,
+  `mood_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`nid`),
+  KEY `app01_moodcomment_avatar_id_20ee4ce3_fk_app01_avatars_nid` (`avatar_id`),
+  KEY `app01_moodcomment_mood_id_f0b5317e_fk_app01_moods_nid` (`mood_id`),
+  CONSTRAINT `app01_moodcomment_avatar_id_20ee4ce3_fk_app01_avatars_nid` FOREIGN KEY (`avatar_id`) REFERENCES `app01_avatars` (`nid`),
+  CONSTRAINT `app01_moodcomment_mood_id_f0b5317e_fk_app01_moods_nid` FOREIGN KEY (`mood_id`) REFERENCES `app01_moods` (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_moodcomment 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_moodcomment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_moodcomment` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_moods 結構
+CREATE TABLE IF NOT EXISTS `app01_moods` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(16) NOT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `content` longtext NOT NULL,
+  `drawing` longtext,
+  `comment_count` int(11) NOT NULL,
+  `digg_count` int(11) NOT NULL,
+  `avatar_id` int(11) DEFAULT NULL,
+  `addr` json DEFAULT NULL,
+  `ip` char(39) NOT NULL,
+  PRIMARY KEY (`nid`),
+  KEY `app01_moods_avatar_id_f891277b_fk_app01_avatars_nid` (`avatar_id`),
+  CONSTRAINT `app01_moods_avatar_id_f891277b_fk_app01_avatars_nid` FOREIGN KEY (`avatar_id`) REFERENCES `app01_avatars` (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_moods 的資料：~5 rows (近似值)
+/*!40000 ALTER TABLE `app01_moods` DISABLE KEYS */;
+REPLACE INTO `app01_moods` (`nid`, `name`, `create_date`, `content`, `drawing`, `comment_count`, `digg_count`, `avatar_id`, `addr`, `ip`) VALUES
+	(1, '123', '2022-10-02 00:00:00.000000', '123', NULL, 0, 0, 7, '{"ct": "中國", "city": "臺中市", "prov": "臺灣省", "yunyin": "中華電信"}', '114.33.106.143'),
+	(2, '456', '2022-10-02 00:00:00.000000', '456', NULL, 0, 0, 5, '{"ct": "韓國", "city": "華城市", "prov": "京畿道", "yunyin": "KT"}', '14.33.106.143'),
+	(3, '789', '2022-10-02 00:00:00.000000', '789', NULL, 0, 0, 5, '{"ct": "美國", "city": "亞特蘭大", "prov": "喬治亞", "yunyin": "hp.com"}', '15.33.106.143'),
+	(4, '宅男', '2022-11-28 00:00:00.000000', '心凌我愛妳', 'data:image/jpeg;base64,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、data:image/jpeg;base64,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、data:image/jpeg;base64,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', 0, 0, 9, '{"ct": "美國", "city": "休斯頓", "prov": "德克薩斯", "yunyin": ""}', '16.33.106.143'),
+	(5, '555', '2022-11-29 14:30:00.000000', '555', 'data:image/jpeg;base64,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、', 0, 0, 5, '{"city": "內網", "prov": "臺灣省"}', '127.0.0.1');
+/*!40000 ALTER TABLE `app01_moods` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_myinfo 結構
+CREATE TABLE IF NOT EXISTS `app01_myinfo` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `job` varchar(128) NOT NULL,
+  `email` varchar(64) NOT NULL,
+  `site_url` varchar(32) NOT NULL,
+  `addr` varchar(16) NOT NULL,
+  `bilbili_url` varchar(200) NOT NULL,
+  `github_url` varchar(200) NOT NULL,
+  `wechat_img` varchar(100) NOT NULL,
+  `qq_img` varchar(100) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_myinfo 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_myinfo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_myinfo` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_navcategory 結構
+CREATE TABLE IF NOT EXISTS `app01_navcategory` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(16) NOT NULL,
+  `icon` varchar(32) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_navcategory 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_navcategory` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_navcategory` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_navs 結構
+CREATE TABLE IF NOT EXISTS `app01_navs` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `icon_href` varchar(200) DEFAULT NULL,
+  `icon` varchar(100) DEFAULT NULL,
+  `title` varchar(32) NOT NULL,
+  `abstract` varchar(128) DEFAULT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `href` varchar(200) NOT NULL,
+  `status` int(11) NOT NULL,
+  `nav_category_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`nid`),
+  KEY `app01_navs_nav_category_id_bc952192_fk_app01_navcategory_nid` (`nav_category_id`),
+  CONSTRAINT `app01_navs_nav_category_id_bc952192_fk_app01_navcategory_nid` FOREIGN KEY (`nav_category_id`) REFERENCES `app01_navcategory` (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_navs 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_navs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_navs` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_new 結構
+CREATE TABLE IF NOT EXISTS `app01_new` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `create_time` datetime(6) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_new 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_new` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_new` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_site 結構
+CREATE TABLE IF NOT EXISTS `app01_site` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(32) NOT NULL,
+  `abstract` varchar(128) NOT NULL,
+  `key_words` varchar(128) NOT NULL,
+  `record` varchar(32) NOT NULL,
+  `create_date` datetime(6) NOT NULL,
+  `version` varchar(16) NOT NULL,
+  `icon` varchar(100) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_site 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_site` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_site` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_tags 結構
+CREATE TABLE IF NOT EXISTS `app01_tags` (
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(16) NOT NULL,
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_tags 的資料：~10 rows (近似值)
+/*!40000 ALTER TABLE `app01_tags` DISABLE KEYS */;
+REPLACE INTO `app01_tags` (`nid`, `title`) VALUES
+	(1, 'Python'),
+	(2, 'JavaScript'),
+	(3, 'Vue'),
+	(4, 'C#'),
+	(5, 'VB'),
+	(6, 'ASP'),
+	(7, 'HTML'),
+	(8, 'css'),
+	(9, 'AA'),
+	(10, 'Ajax');
+/*!40000 ALTER TABLE `app01_tags` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_userinfo 結構
+CREATE TABLE IF NOT EXISTS `app01_userinfo` (
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `first_name` varchar(150) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime(6) NOT NULL,
+  `nid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(16) NOT NULL,
+  `sign_status` int(11) NOT NULL,
+  `tel` varchar(10) NOT NULL,
+  `integral` int(11) NOT NULL,
+  `avatar_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`nid`),
+  UNIQUE KEY `username` (`username`),
+  KEY `app01_userinfo_avatar_id_4d8395aa_fk_app01_avatars_nid` (`avatar_id`),
+  CONSTRAINT `app01_userinfo_avatar_id_4d8395aa_fk_app01_avatars_nid` FOREIGN KEY (`avatar_id`) REFERENCES `app01_avatars` (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_userinfo 的資料：~4 rows (近似值)
+/*!40000 ALTER TABLE `app01_userinfo` DISABLE KEYS */;
+REPLACE INTO `app01_userinfo` (`password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `nid`, `name`, `sign_status`, `tel`, `integral`, `avatar_id`) VALUES
+	('pbkdf2_sha256$390000$FeDSaA8roeN4hTzYwP0ld2$VL1eLJqDZInN4g4i7CHr2pgbrqKFFk5UpOR0+WtkrZo=', '2022-11-29 00:08:37.337353', 1, 'johnny', '', '', '', 1, 1, '2022-09-02 14:54:00.000000', 1, 'johnny', 8, '0935030320', 20, 2),
+	('pbkdf2_sha256$390000$MPfELeyw9lI2cHK0c8e5GX$RWOcU5d/dDFIFQ0ID+NF+V40Gvjwf/R1h6NqBAN8KSY=', '2022-09-27 10:01:23.859951', 0, '123', '', '', '', 0, 1, '2022-09-02 17:01:00.000000', 2, '123', 8, '123', 20, 5),
+	('pbkdf2_sha256$390000$CXQc7j7D4dZYGU9f6sSHA6$za3MuKJuDh3sw05GAtrC9gGicAurqwcULJROhArh88A=', '2022-09-27 09:58:58.094804', 0, '456', '', '', '', 0, 1, '2022-09-03 02:53:00.000000', 3, '456', 8, '456', 20, 6),
+	('pbkdf2_sha256$390000$6BO3Me8AEHF7lD4tBFcIEg$1zWZSqn29cN/LbxzlKxnh2c82e1jnEQL+AW8Wbx9oEU=', '2022-09-12 01:19:00.000000', 0, '789', '', '', '', 0, 1, '2022-09-07 15:25:00.000000', 4, '789', 8, '789', 20, 7);
+/*!40000 ALTER TABLE `app01_userinfo` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_userinfo_collects 結構
+CREATE TABLE IF NOT EXISTS `app01_userinfo_collects` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userinfo_id` int(11) NOT NULL,
+  `articles_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app01_userinfo_collects_userinfo_id_articles_id_73774dcd_uniq` (`userinfo_id`,`articles_id`),
+  KEY `app01_userinfo_colle_articles_id_c3773049_fk_app01_art` (`articles_id`),
+  CONSTRAINT `app01_userinfo_colle_articles_id_c3773049_fk_app01_art` FOREIGN KEY (`articles_id`) REFERENCES `app01_articles` (`nid`),
+  CONSTRAINT `app01_userinfo_colle_userinfo_id_eab70bce_fk_app01_use` FOREIGN KEY (`userinfo_id`) REFERENCES `app01_userinfo` (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_userinfo_collects 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_userinfo_collects` DISABLE KEYS */;
+REPLACE INTO `app01_userinfo_collects` (`id`, `userinfo_id`, `articles_id`) VALUES
+	(10, 1, 5);
+/*!40000 ALTER TABLE `app01_userinfo_collects` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_userinfo_groups 結構
+CREATE TABLE IF NOT EXISTS `app01_userinfo_groups` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userinfo_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app01_userinfo_groups_userinfo_id_group_id_48ba2aa6_uniq` (`userinfo_id`,`group_id`),
+  KEY `app01_userinfo_groups_group_id_30b9b2c4_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `app01_userinfo_groups_group_id_30b9b2c4_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `app01_userinfo_groups_userinfo_id_04be482a_fk_app01_userinfo_nid` FOREIGN KEY (`userinfo_id`) REFERENCES `app01_userinfo` (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_userinfo_groups 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_userinfo_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_userinfo_groups` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.app01_userinfo_user_permissions 結構
+CREATE TABLE IF NOT EXISTS `app01_userinfo_user_permissions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userinfo_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app01_userinfo_user_perm_userinfo_id_permission_i_8bd06903_uniq` (`userinfo_id`,`permission_id`),
+  KEY `app01_userinfo_user__permission_id_826033c9_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `app01_userinfo_user__permission_id_826033c9_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `app01_userinfo_user__userinfo_id_3a67a872_fk_app01_use` FOREIGN KEY (`userinfo_id`) REFERENCES `app01_userinfo` (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.app01_userinfo_user_permissions 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `app01_userinfo_user_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app01_userinfo_user_permissions` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.auth_group 結構
+CREATE TABLE IF NOT EXISTS `auth_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.auth_group 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.auth_group_permissions 結構
+CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.auth_group_permissions 的資料：~0 rows (近似值)
+/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.auth_permission 結構
+CREATE TABLE IF NOT EXISTS `auth_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `content_type_id` int(11) NOT NULL,
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
+  CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.auth_permission 的資料：~92 rows (近似值)
+/*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
+REPLACE INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALUES
+	(1, 'Can add log entry', 1, 'add_logentry'),
+	(2, 'Can change log entry', 1, 'change_logentry'),
+	(3, 'Can delete log entry', 1, 'delete_logentry'),
+	(4, 'Can view log entry', 1, 'view_logentry'),
+	(5, 'Can add permission', 2, 'add_permission'),
+	(6, 'Can change permission', 2, 'change_permission'),
+	(7, 'Can delete permission', 2, 'delete_permission'),
+	(8, 'Can view permission', 2, 'view_permission'),
+	(9, 'Can add group', 3, 'add_group'),
+	(10, 'Can change group', 3, 'change_group'),
+	(11, 'Can delete group', 3, 'delete_group'),
+	(12, 'Can view group', 3, 'view_group'),
+	(13, 'Can add content type', 4, 'add_contenttype'),
+	(14, 'Can change content type', 4, 'change_contenttype'),
+	(15, 'Can delete content type', 4, 'delete_contenttype'),
+	(16, 'Can view content type', 4, 'view_contenttype'),
+	(17, 'Can add session', 5, 'add_session'),
+	(18, 'Can change session', 5, 'change_session'),
+	(19, 'Can delete session', 5, 'delete_session'),
+	(20, 'Can view session', 5, 'view_session'),
+	(21, 'Can add user info', 6, 'add_userinfo'),
+	(22, 'Can change user info', 6, 'change_userinfo'),
+	(23, 'Can delete user info', 6, 'delete_userinfo'),
+	(24, 'Can view user info', 6, 'view_userinfo'),
+	(25, 'Can add advert', 7, 'add_advert'),
+	(26, 'Can change advert', 7, 'change_advert'),
+	(27, 'Can delete advert', 7, 'delete_advert'),
+	(28, 'Can view advert', 7, 'view_advert'),
+	(29, 'Can add articles', 8, 'add_articles'),
+	(30, 'Can change articles', 8, 'change_articles'),
+	(31, 'Can delete articles', 8, 'delete_articles'),
+	(32, 'Can view articles', 8, 'view_articles'),
+	(33, 'Can add avatars', 9, 'add_avatars'),
+	(34, 'Can change avatars', 9, 'change_avatars'),
+	(35, 'Can delete avatars', 9, 'delete_avatars'),
+	(36, 'Can view avatars', 9, 'view_avatars'),
+	(37, 'Can add cover', 10, 'add_cover'),
+	(38, 'Can change cover', 10, 'change_cover'),
+	(39, 'Can delete cover', 10, 'delete_cover'),
+	(40, 'Can view cover', 10, 'view_cover'),
+	(41, 'Can add feedback', 11, 'add_feedback'),
+	(42, 'Can change feedback', 11, 'change_feedback'),
+	(43, 'Can delete feedback', 11, 'delete_feedback'),
+	(44, 'Can view feedback', 11, 'view_feedback'),
+	(45, 'Can add history', 12, 'add_history'),
+	(46, 'Can change history', 12, 'change_history'),
+	(47, 'Can delete history', 12, 'delete_history'),
+	(48, 'Can view history', 12, 'view_history'),
+	(49, 'Can add menu img', 13, 'add_menuimg'),
+	(50, 'Can change menu img', 13, 'change_menuimg'),
+	(51, 'Can delete menu img', 13, 'delete_menuimg'),
+	(52, 'Can view menu img', 13, 'view_menuimg'),
+	(53, 'Can add my info', 14, 'add_myinfo'),
+	(54, 'Can change my info', 14, 'change_myinfo'),
+	(55, 'Can delete my info', 14, 'delete_myinfo'),
+	(56, 'Can view my info', 14, 'view_myinfo'),
+	(57, 'Can add nav category', 15, 'add_navcategory'),
+	(58, 'Can change nav category', 15, 'change_navcategory'),
+	(59, 'Can delete nav category', 15, 'delete_navcategory'),
+	(60, 'Can view nav category', 15, 'view_navcategory'),
+	(61, 'Can add new', 16, 'add_new'),
+	(62, 'Can change new', 16, 'change_new'),
+	(63, 'Can delete new', 16, 'delete_new'),
+	(64, 'Can view new', 16, 'view_new'),
+	(65, 'Can add site', 17, 'add_site'),
+	(66, 'Can change site', 17, 'change_site'),
+	(67, 'Can delete site', 17, 'delete_site'),
+	(68, 'Can view site', 17, 'view_site'),
+	(69, 'Can add tags', 18, 'add_tags'),
+	(70, 'Can change tags', 18, 'change_tags'),
+	(71, 'Can delete tags', 18, 'delete_tags'),
+	(72, 'Can view tags', 18, 'view_tags'),
+	(73, 'Can add navs', 19, 'add_navs'),
+	(74, 'Can change navs', 19, 'change_navs'),
+	(75, 'Can delete navs', 19, 'delete_navs'),
+	(76, 'Can view navs', 19, 'view_navs'),
+	(77, 'Can add moods', 20, 'add_moods'),
+	(78, 'Can change moods', 20, 'change_moods'),
+	(79, 'Can delete moods', 20, 'delete_moods'),
+	(80, 'Can view moods', 20, 'view_moods'),
+	(81, 'Can add mood comment', 21, 'add_moodcomment'),
+	(82, 'Can change mood comment', 21, 'change_moodcomment'),
+	(83, 'Can delete mood comment', 21, 'delete_moodcomment'),
+	(84, 'Can view mood comment', 21, 'view_moodcomment'),
+	(85, 'Can add menu', 22, 'add_menu'),
+	(86, 'Can change menu', 22, 'change_menu'),
+	(87, 'Can delete menu', 22, 'delete_menu'),
+	(88, 'Can view menu', 22, 'view_menu'),
+	(89, 'Can add comment', 23, 'add_comment'),
+	(90, 'Can change comment', 23, 'change_comment'),
+	(91, 'Can delete comment', 23, 'delete_comment'),
+	(92, 'Can view comment', 23, 'view_comment');
+/*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.django_admin_log 結構
+CREATE TABLE IF NOT EXISTS `django_admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `action_time` datetime(6) NOT NULL,
+  `object_id` longtext,
+  `object_repr` varchar(200) NOT NULL,
+  `action_flag` smallint(5) unsigned NOT NULL,
+  `change_message` longtext NOT NULL,
+  `content_type_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_app01_userinfo_nid` (`user_id`),
+  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_app01_userinfo_nid` FOREIGN KEY (`user_id`) REFERENCES `app01_userinfo` (`nid`)
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.django_admin_log 的資料：~71 rows (近似值)
+/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+REPLACE INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`, `action_flag`, `change_message`, `content_type_id`, `user_id`) VALUES
+	(1, '2022-09-03 15:16:44.200402', '1', 'Python', 1, '[{"added": {}}]', 18, 1),
+	(2, '2022-09-03 15:16:50.390038', '2', 'JavaScript', 1, '[{"added": {}}]', 18, 1),
+	(3, '2022-09-03 15:16:55.825351', '3', 'Vue', 1, '[{"added": {}}]', 18, 1),
+	(4, '2022-09-03 15:36:19.696710', '4', 'article_img/IMG_20220101_110829.jpg', 1, '[{"added": {}}]', 10, 1),
+	(5, '2022-09-03 15:37:38.788738', '5', 'article_img/IMG_0483.JPG', 1, '[{"added": {}}]', 10, 1),
+	(6, '2022-09-03 15:38:06.214160', '6', 'article_img/IMG_0459.JPG', 1, '[{"added": {}}]', 10, 1),
+	(7, '2022-09-03 15:38:51.602046', '7', 'article_img/IMG_0165.JPG', 1, '[{"added": {}}]', 10, 1),
+	(8, '2022-09-03 15:39:22.754345', '8', 'article_img/IMG_20220320_130156.jpg', 1, '[{"added": {}}]', 10, 1),
+	(9, '2022-09-03 15:43:43.669676', '1', '多行註解\r\n按下「Ctrl+/」\r\n\r\n多行縮進\r\n選中多行程式碼後，按下「Tab」鍵，則會向右縮進\r\n向左縮進則按下「Shift+Tab」\r\n\r\n多行編輯\r\nAlt+滑鼠左鍵\r\n\r\n5f1f4076a627b6ba5ec77fc6ead2c687.png\r\n\r\n快速編排代碼\r\nCtrl+Alt+L\r\n\r\n複製一行代碼\r\nCtrl+D\r\n\r\n快速產生帶有 class名稱的標籤\r\n.「class名稱', 1, '[{"added": {}}]', 8, 1),
+	(10, '2022-09-03 15:46:01.556163', '1', 'Python-PyCharm程式碼編輯技巧', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u5167\\u5bb9"]}}]', 8, 1),
+	(11, '2022-09-03 15:46:33.975893', '2', '測試文章2', 1, '[{"added": {}}]', 8, 1),
+	(12, '2022-09-03 15:56:57.739991', '1', 'Python-PyCharm程式碼編輯技巧', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u6a19\\u7c64"]}}]', 8, 1),
+	(13, '2022-09-04 12:12:56.978322', '1', '# 編號規則\r\n\r\n`★經常用的、重要的、有價值的，才做筆記存檔起來`\r\n\r\n## 00-筆記操作說明\r\n\r\n## 01-專案  \r\n★檔名規則：開始日-專案名稱-結案日\r\n「結案區」：專案結案時，檔名填寫結案日後，移動到結案區\r\n\r\n「暫停區」：專案暫停或者放棄的，先放在這裡，待判斷整理知識後刪除\r\n\r\n## 1X-開頭「程式語言」學習文檔\r\n如果課程較多筆記，再建立子分類存放\r\n\r\n## 3X', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u5167\\u5bb9"]}}]', 8, 1),
+	(14, '2022-09-04 12:14:21.859042', '1', '# 編號規則\r\n\r\n`★經常用的、重要的、有價值的，才做筆記存檔起來`\r\n\r\n## 00-筆記操作說明\r\n\r\n## 01-專案  \r\n★檔名規則：開始日-專案名稱-結案日\r\n「結案區」：專案結案時，檔名填寫結案日後，移動到結案區\r\n\r\n「暫停區」：專案暫停或者放棄的，先放在這裡，待判斷整理知識後刪除\r\n\r\n## 1X-開頭「程式語言」學習文檔\r\n如果課程較多筆記，再建立子分類存放\r\n\r\n## 3X', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u5167\\u5bb9"]}}]', 8, 1),
+	(15, '2022-09-04 12:27:50.688491', '1', '程式碼範例：\r\n\r\n``` python\r\nfrom django.utils.deprecation import MiddlewareMixin\r\nimport json\r\n\r\n\r\n# 解析post請求的數據\r\nclass Md1(MiddlewareMixin):\r\n    # 請求中間件\r\n    def process_request(self, request):\r\n        i', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u5167\\u5bb9"]}}]', 8, 1),
+	(16, '2022-09-04 12:28:49.181080', '2', '# 常用指令\r\n\r\n★ 用 netstat 檢查 port有無異常\r\n是誰躲在我的電腦裡？\r\n\r\n```cmd\r\nnetstat \r\n```\r\n顯示結果為四列，其意思分別為\r\nProto                    ：協議\r\nLocalAddress    ：本地地址\r\nForeignAddress：遠程地址\r\nState                    ：狀態\r\n\r\n在位址欄中冒', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u5167\\u5bb9"]}}]', 8, 1),
+	(17, '2022-09-05 23:51:10.872880', '4', 'C#', 1, '[{"added": {}}]', 18, 1),
+	(18, '2022-09-05 23:51:22.044988', '5', 'VB', 1, '[{"added": {}}]', 18, 1),
+	(19, '2022-09-05 23:51:30.307469', '6', 'ASP', 1, '[{"added": {}}]', 18, 1),
+	(20, '2022-09-05 23:51:38.807107', '7', 'HTML', 1, '[{"added": {}}]', 18, 1),
+	(21, '2022-09-06 02:42:21.578621', '1', '程式碼範例：\r\n\r\n``` python\r\nfrom django.utils.deprecation import MiddlewareMixin\r\nimport json\r\n\r\n\r\n# 解析post請求的數據\r\nclass Md1(MiddlewareMixin):\r\n    # 請求中間件\r\n    def process_request(self, request):\r\n        i', 2, '[]', 8, 1),
+	(22, '2022-09-06 02:42:33.300546', '3', '123123123123123123', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u4fdd\\u5b58\\u72c0\\u614b"]}}]', 8, 1),
+	(23, '2022-09-06 02:43:31.865415', '3', '123123123123123123', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u4fdd\\u5b58\\u72c0\\u614b"]}}]', 8, 1),
+	(24, '2022-09-06 02:43:42.156633', '1', '程式碼範例：\r\n\r\n``` python\r\nfrom django.utils.deprecation import MiddlewareMixin\r\nimport json\r\n\r\n\r\n# 解析post請求的數據\r\nclass Md1(MiddlewareMixin):\r\n    # 請求中間件\r\n    def process_request(self, request):\r\n        i', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u4fdd\\u5b58\\u72c0\\u614b"]}}]', 8, 1),
+	(25, '2022-09-06 02:43:49.098328', '2', '# 常用指令\r\n\r\n★ 用 netstat 檢查 port有無異常\r\n是誰躲在我的電腦裡？\r\n\r\n```cmd\r\nnetstat \r\n```\r\n顯示結果為四列，其意思分別為\r\nProto                    ：協議\r\nLocalAddress    ：本地地址\r\nForeignAddress：遠程地址\r\nState                    ：狀態\r\n\r\n在位址欄中冒', 2, '[{"changed": {"fields": ["\\u6587\\u7ae0\\u4fdd\\u5b58\\u72c0\\u614b"]}}]', 8, 1),
+	(26, '2022-09-07 02:04:12.722701', '11', '第11個文章123777', 3, '', 8, 1),
+	(27, '2022-09-07 02:04:12.739285', '10', '測試文章標題', 3, '', 8, 1),
+	(28, '2022-09-07 02:04:12.748418', '9', '33333', 3, '', 8, 1),
+	(29, '2022-09-07 02:04:12.758371', '8', '1234567', 3, '', 8, 1),
+	(30, '2022-09-07 02:04:12.769101', '7', '測試新增文章', 3, '', 8, 1),
+	(31, '2022-09-07 02:04:12.778854', '6', '測試新增文章', 3, '', 8, 1),
+	(32, '2022-09-07 02:04:12.789582', '4', '123', 3, '', 8, 1),
+	(33, '2022-09-07 02:04:12.799337', '3', '1123123', 3, '', 8, 1),
+	(34, '2022-09-07 02:04:12.807138', '2', '測試文章2', 3, '', 8, 1),
+	(35, '2022-09-07 02:04:12.814942', '1', 'Python-PyCharm程式碼編輯技巧', 3, '', 8, 1),
+	(36, '2022-09-07 02:17:20.091420', '1', '父評論1', 1, '[{"added": {}}]', 23, 1),
+	(37, '2022-09-07 02:17:30.229288', '2', '父評論2', 1, '[{"added": {}}]', 23, 1),
+	(38, '2022-09-07 02:17:46.967493', '3', '子評論1', 1, '[{"added": {}}]', 23, 1),
+	(39, '2022-09-07 02:18:19.082036', '4', '子評論12', 1, '[{"added": {}}]', 23, 1),
+	(40, '2022-09-07 02:18:24.565848', '3', '子評論11', 2, '[{"changed": {"fields": ["\\u8a55\\u8ad6\\u5167\\u5bb9"]}}]', 23, 1),
+	(41, '2022-09-07 02:19:07.003631', '5', '子評論21', 1, '[{"added": {}}]', 23, 1),
+	(42, '2022-09-07 02:19:41.389791', '6', '子評論111', 1, '[{"added": {}}]', 23, 1),
+	(43, '2022-09-07 04:35:31.766880', '2', 'avatars/Johnny.png', 1, '[{"added": {}}]', 9, 1),
+	(44, '2022-09-07 04:42:30.284941', '3', 'avatars/123.jpg', 1, '[{"added": {}}]', 9, 1),
+	(45, '2022-09-07 04:42:36.845084', '4', 'avatars/456.jpg', 1, '[{"added": {}}]', 9, 1),
+	(46, '2022-09-07 04:51:10.218033', '2', '123', 2, '[{"changed": {"fields": ["Last login", "\\u66b1\\u7a31", "\\u624b\\u6a5f", "\\u7528\\u6236\\u982d\\u50cf"]}}]', 6, 1),
+	(47, '2022-09-07 04:51:23.633891', '3', '456', 2, '[{"changed": {"fields": ["Last login", "\\u66b1\\u7a31", "\\u624b\\u6a5f", "\\u7528\\u6236\\u982d\\u50cf"]}}]', 6, 1),
+	(48, '2022-09-07 04:51:45.233537', '1', 'johnny', 2, '[{"changed": {"fields": ["Last login", "\\u66b1\\u7a31", "\\u624b\\u6a5f", "\\u7528\\u6236\\u982d\\u50cf"]}}]', 6, 1),
+	(49, '2022-09-25 01:14:05.567814', '1', 'Advert object (1)', 1, '[{"added": {}}]', 7, 1),
+	(50, '2022-09-25 01:15:40.087424', '2', 'Advert object (2)', 1, '[{"added": {}}]', 7, 1),
+	(51, '2022-09-25 01:31:13.173152', '1', 'Advert object (1)', 2, '[{"changed": {"fields": ["\\u5716\\u7247\\u7d44"]}}]', 7, 1),
+	(52, '2022-09-25 02:34:53.209531', '1', 'Advert object (1)', 2, '[{"changed": {"fields": ["\\u5716\\u7247\\u5730\\u5740"]}}]', 7, 1),
+	(53, '2022-09-25 02:36:18.552249', '1', 'Advert object (1)', 2, '[{"changed": {"fields": ["\\u662f\\u5426\\u5c55\\u793a"]}}]', 7, 1),
+	(54, '2022-09-25 02:36:40.826502', '2', 'Advert object (2)', 2, '[{"changed": {"fields": ["\\u662f\\u5426\\u5c55\\u793a"]}}]', 7, 1),
+	(55, '2022-09-25 02:53:56.178366', '2', 'Advert object (2)', 2, '[{"changed": {"fields": ["\\u662f\\u5426\\u5c55\\u793a"]}}]', 7, 1),
+	(56, '2022-09-25 02:54:01.175314', '1', 'Advert object (1)', 2, '[{"changed": {"fields": ["\\u662f\\u5426\\u5c55\\u793a"]}}]', 7, 1),
+	(57, '2022-09-25 02:55:33.763426', '1', 'Advert object (1)', 2, '[{"changed": {"fields": ["\\u662f\\u5426\\u5c55\\u793a"]}}]', 7, 1),
+	(58, '2022-09-25 02:55:39.234078', '2', 'Advert object (2)', 2, '[{"changed": {"fields": ["\\u662f\\u5426\\u5c55\\u793a"]}}]', 7, 1),
+	(59, '2022-09-25 02:59:35.391516', '1', 'Advert object (1)', 2, '[{"changed": {"fields": ["\\u662f\\u5426\\u5c55\\u793a"]}}]', 7, 1),
+	(60, '2022-09-25 02:59:48.117887', '2', 'Advert object (2)', 2, '[{"changed": {"fields": ["\\u662f\\u5426\\u5c55\\u793a"]}}]', 7, 1),
+	(61, '2022-09-27 09:55:53.181445', '5', 'avatars/pic01.png', 1, '[{"added": {}}]', 9, 1),
+	(62, '2022-09-27 09:55:59.808293', '6', 'avatars/pic02.png', 1, '[{"added": {}}]', 9, 1),
+	(63, '2022-09-27 09:56:06.354068', '7', 'avatars/pic03.png', 1, '[{"added": {}}]', 9, 1),
+	(64, '2022-09-27 09:56:12.413443', '8', 'avatars/pic04.png', 1, '[{"added": {}}]', 9, 1),
+	(65, '2022-09-27 09:56:20.018554', '9', 'avatars/pic05.png', 1, '[{"added": {}}]', 9, 1),
+	(66, '2022-09-27 09:56:26.266178', '10', 'avatars/pic06.png', 1, '[{"added": {}}]', 9, 1),
+	(67, '2022-09-27 09:56:51.897549', '4', 'avatars/456.jpg', 3, '', 9, 1),
+	(68, '2022-09-27 09:56:51.902412', '3', 'avatars/123.jpg', 3, '', 9, 1),
+	(69, '2022-09-27 09:57:08.995471', '2', '123', 2, '[{"changed": {"fields": ["Last login", "\\u7528\\u6236\\u982d\\u50cf"]}}]', 6, 1),
+	(70, '2022-09-27 09:57:18.129322', '3', '456', 2, '[{"changed": {"fields": ["\\u7528\\u6236\\u982d\\u50cf"]}}]', 6, 1),
+	(71, '2022-09-27 10:00:36.792721', '4', '789', 2, '[{"changed": {"fields": ["Last login", "\\u66b1\\u7a31", "\\u624b\\u6a5f", "\\u7528\\u6236\\u982d\\u50cf"]}}]', 6, 1);
+/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.django_content_type 結構
+CREATE TABLE IF NOT EXISTS `django_content_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_label` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.django_content_type 的資料：~23 rows (近似值)
+/*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
+REPLACE INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
+	(1, 'admin', 'logentry'),
+	(7, 'app01', 'advert'),
+	(8, 'app01', 'articles'),
+	(9, 'app01', 'avatars'),
+	(23, 'app01', 'comment'),
+	(10, 'app01', 'cover'),
+	(11, 'app01', 'feedback'),
+	(12, 'app01', 'history'),
+	(22, 'app01', 'menu'),
+	(13, 'app01', 'menuimg'),
+	(21, 'app01', 'moodcomment'),
+	(20, 'app01', 'moods'),
+	(14, 'app01', 'myinfo'),
+	(15, 'app01', 'navcategory'),
+	(19, 'app01', 'navs'),
+	(16, 'app01', 'new'),
+	(17, 'app01', 'site'),
+	(18, 'app01', 'tags'),
+	(6, 'app01', 'userinfo'),
+	(3, 'auth', 'group'),
+	(2, 'auth', 'permission'),
+	(4, 'contenttypes', 'contenttype'),
+	(5, 'sessions', 'session');
+/*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.django_migrations 結構
+CREATE TABLE IF NOT EXISTS `django_migrations` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `app` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `applied` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.django_migrations 的資料：~26 rows (近似值)
+/*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
+REPLACE INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
+	(1, 'contenttypes', '0001_initial', '2022-08-28 03:13:39.584516'),
+	(2, 'contenttypes', '0002_remove_content_type_name', '2022-08-28 03:13:39.791495'),
+	(3, 'auth', '0001_initial', '2022-08-28 03:13:41.268466'),
+	(4, 'auth', '0002_alter_permission_name_max_length', '2022-08-28 03:13:41.415019'),
+	(5, 'auth', '0003_alter_user_email_max_length', '2022-08-28 03:13:41.429650'),
+	(6, 'auth', '0004_alter_user_username_opts', '2022-08-28 03:13:41.445255'),
+	(7, 'auth', '0005_alter_user_last_login_null', '2022-08-28 03:13:41.460863'),
+	(8, 'auth', '0006_require_contenttypes_0002', '2022-08-28 03:13:41.470618'),
+	(9, 'auth', '0007_alter_validators_add_error_messages', '2022-08-28 03:13:41.488299'),
+	(10, 'auth', '0008_alter_user_username_max_length', '2022-08-28 03:13:41.504005'),
+	(11, 'auth', '0009_alter_user_last_name_max_length', '2022-08-28 03:13:41.519613'),
+	(12, 'auth', '0010_alter_group_name_max_length', '2022-08-28 03:13:41.694359'),
+	(13, 'auth', '0011_update_proxy_permissions', '2022-08-28 03:13:41.713863'),
+	(14, 'auth', '0012_alter_user_first_name_max_length', '2022-08-28 03:13:41.733370'),
+	(15, 'app01', '0001_initial', '2022-08-28 03:13:46.017937'),
+	(16, 'admin', '0001_initial', '2022-08-28 03:13:46.454822'),
+	(17, 'admin', '0002_logentry_remove_auto_add', '2022-08-28 03:13:46.479256'),
+	(18, 'admin', '0003_logentry_add_action_flag_choices', '2022-08-28 03:13:46.506775'),
+	(19, 'sessions', '0001_initial', '2022-08-28 03:13:46.641417'),
+	(20, 'app01', '0002_alter_userinfo_collects', '2022-09-06 02:16:33.616624'),
+	(21, 'app01', '0003_articles_pwd_alter_articles_category', '2022-09-06 02:16:33.667545'),
+	(22, 'app01', '0004_articles_link_alter_articles_status', '2022-09-06 04:42:34.133951'),
+	(23, 'app01', '0005_articles_word_alter_articles_category', '2022-09-23 08:45:48.542003'),
+	(24, 'app01', '0006_moods_addr_moods_ip_alter_moods_create_date', '2022-11-29 05:21:26.424757'),
+	(25, 'app01', '0007_alter_moods_create_date', '2022-11-29 06:27:39.946503'),
+	(26, 'app01', '0008_alter_history_create_date_alter_moods_create_date', '2022-11-29 06:29:40.220737');
+/*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
+
+-- 傾印  資料表 cj_blog.django_session 結構
+CREATE TABLE IF NOT EXISTS `django_session` (
+  `session_key` varchar(40) NOT NULL,
+  `session_data` longtext NOT NULL,
+  `expire_date` datetime(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_expire_date_a5c62663` (`expire_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在傾印表格  cj_blog.django_session 的資料：~25 rows (近似值)
+/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
+REPLACE INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+	('1kb419omudx6gxkmhucw26xe509tgkoy', 'eyJ2YWxpZF9jb2RlIjoiUVg0YyJ9:1oUAO7:wlTadczMywjlM4xq-7hHT9ulXrMMjPC2qwpHwVhtpZ8', '2022-09-16 17:23:27.599149'),
+	('2gy6sbilvwd3ohgapmca7ou2tb2am6kv', 'eyJ2YWxpZF9jb2RlIjoiOHZmZCJ9:1oUA0Q:7WEukGXX0W06HXOZEzf8pFQjqRXGadB2EpWezcX63nI', '2022-09-16 16:58:58.841696'),
+	('6tgaex4aau4y4pymbx3minpnt7zonwku', 'eyJ2YWxpZF9jb2RlIjoic09hNSJ9:1oU9WY:L58vyJXjL8N4CWSYw_EEI9bXMhQV2n1uGXkyjurb0jE', '2022-09-16 16:28:06.997247'),
+	('7jnibo95y3owp06j0q6dq90krol3chwu', 'eyJ2YWxpZF9jb2RlIjoiZ1FCMyJ9:1oUAO6:eRy8qi39rMYsyOdxKyY7B8nG9tb-IGjzs8_nmUGQg4k', '2022-09-16 17:23:26.507899'),
+	('85bsmk8q0kmw9cfb117lu0xzk55i6ziv', '.eJxVjMsOgjAQRf-la9NM6ROXstWVH9BMp4ygBBIexsT470LChu05596veGPX5khDrsVZVNf7R5xExGVu4jLVY2zzis2RJaRX3W8iP7F_DJKGfh7bJLdE7naSt_Wzu-zt4aDBqVnXHJQpIXFZOgVkGS0BBWTWQC4jAJmsDGoElwC8Tpy4AGu8D7oIzovfH25dPeE:1oXXYr:SuKuLeOOMy68z-kJch0u_gVciW7hfPzWZQ5WWHpHRYA', '2022-09-26 00:44:29.606052'),
+	('b0u4px6mukeutb6rxavc2qg8tp6jirkj', 'eyJ2YWxpZF9jb2RlIjoiRElYdyJ9:1oUA2b:beyq7i7AOKoteFxd9jvkLQbDDXryNtfWb7wIYFN1Zmc', '2022-09-16 17:01:13.957647'),
+	('ch70vubxhqbgmjeusmj0vqf7ryvthnqd', 'eyJ2YWxpZF9jb2RlIjoiZnNuQyJ9:1oU9zH:3DrKgwXoBksc0XlMM3lu4kdAnzBa_CylBSopXy86LPE', '2022-09-16 16:57:47.191438'),
+	('dzmspvballoq1s28yld4rwl970m5d7z2', 'eyJ2YWxpZF9jb2RlIjoiVTBoSyJ9:1oUA4o:FvWSWWCxoIa0MXenndx0KPDMfoh1GM2vmAyL6d6HuTY', '2022-09-16 17:03:30.080176'),
+	('e6nddsglgugn3dgx2haaq813i8rcdngh', '.eJxVjMEOgyAQBf-Fc0MQELHH3v0GArtrtbWQCDZpmv57MfHidd68-bK3X2Z0kJDYlX1eZWAX5vxWJrdlWt2MFTdnFjw8Ke4DPny8Jw4plnUOfFf4sWY-1OZyO9xTYPJ5qm-CANWWLSIIQE1GqGBtK0bhZdDCdF0vFGgtMci2ox5VvVjbSGNGS5b9_scGPvo:1oYVVE:5EFVxSnRZ7cLUQ5S7i0roiCF9m1UsYvNslaiu6XDaXE', '2022-09-28 16:44:44.926741'),
+	('gezsilmie11fzak41b3ddyrmewbi0tax', '.eJxVjMsOwiAQRf-FtSGUUqAu3fsBuiEwMxW0gaQPY2L8d2nSTbfnnnu-7O3HhA4KEjuz23j_sBNzfl2iW2eaXMKKmyMLHl6UtwGfPj8Kh5KXKQW-KXxfZ36tzfGyu4dA9HOsb4IA1ZYdIghARVq0wdpODMLLoIQ2phctKCUxyM5Qj229WNtIrQdLlv3-u7o-6g:1oveOT:wNbzt8L248rMKYX0HkdKBlzYu3fX_XyaXNJh43-HTMs', '2022-12-01 12:53:25.973192'),
+	('gukjkwc9hk64pdg9xjmzoam360tbrwju', '.eJy9lsuSmzAQRX_FxdoPIYQQs0v2WWYVplytBzYJD5eA2Uz536M2niRDkRGmxl4Jqy_X6tMtiddgD3133PetsftCB09BGKz_nZOgfpkaA_on1Idmq5q6s4XcomR7jbbbb4025der9p3BEdqje9soqZyaxlorojQznERSiJjkBKhkhCdJSiLFGNWSxolJdeReESKknOfCCDStTN23zuvHaxbUUJkseFplwZfTiYRZsHaPhVvcMJmDXeWwUYVVpRmCFS6xxfD797Osj42JcGAMZhj1thxiO9BVUe8AF-CeX4ztdoMEtP7-kcrFr0ppDWhl-0pOLG1Oauf1ank652cMm0JjNCSETrjxWCRuSMCQ5XBsVzhJ68XzprsvoPkpjQFFHjdHXbkVZX2acLoYl2pcl_hYDaLHgboltTE25vXmEKb4S3G2GFsHB2-HXTSPhDY_sTG0eMI7ialAUxrxxZjwWC7qvPGh-qO7L675KY0BcY-ba1VBNTYuUfnys-sFOrD-o-sqexysW9Ibo0smvAXE8WXQy3tLNZW7pb3X4JvsvrDmJzTGI8YT4aS9QPpCMtzgghLc9TwSlwJJMnH3tvif7bEwpd5A2Xm_S5IcGA6aTZwdFzPco-1GNYf_FMV9hu0OtulPH1Tkr2ZmOT4n96nuviXfUYlCMq5Zen4Ozr8BRRlabw:1od7QA:sk8JisBImrsVdkdVVJu0UPwtecw81uB0PRaCPECZZ70', '2022-10-11 10:02:34.909285'),
+	('h0n69f714cj6cuoruwpondihoq6t09fc', 'eyJ2YWxpZF9jb2RlIjoiSlFqbSJ9:1oUA0P:Pv9utMp_xrNf_HTVhB0o4jJy6ZrOd6y6H5sTpqTB7F8', '2022-09-16 16:58:57.370936'),
+	('k2qbvn7rd5i9d774guul0z0h2b0kxin9', '.eJy9lsuS2yAQRX_FxdoPhBBCs8vsZ5lVNOVqHrKV6OECyZsp_3vA9iRllTLIqtgrZPrqmj7dgD7QEapSbWWrNHpBR2oVWqIt9N1-21tttqVy09HtnAD5Szc-oH5Cs2vXsm06U4q1l6yvUbt-c57V61V7Y7AHu3dvaymkU5NEKYmloprhWHCe4AIDERSzNM1wLCklSpAk1ZmK3SucR4SxgmvuTWvd9NZ5_fjIUQO1ztHLIkffDgcc5WjpHku3uMtkAWZRwEqWRlb6Eqz9Eq0P376f532idewHSmGCUW-qS2wDqi6bDfgFuOejNt3mIgGlvn-lcvGrUhgNSpq-FiNLm5LaabmYn87p3Yd1qXw0wpiMuLGEp25IQeP5cExXOokN4vnUPRbQ9JSGgOKAm6Mu3YryPksZmY1Ltq5LQqwuoueBuie1ITYa9GYQZf6XZHQ2tg52wQ47a54JbXpiQ2jJiHeaEO5NScxmY_LHctkUbQjVH91jcU1PaQiIBdxcq3KifONiWcw_u47QgQkfXVfZ82Ddk94QXTrizSFJzoOa31uyrd0tHbwGP2WPhTU9oSEePpyIRu25p88F9RucE-x3PYv5uUACj9y91v-n3Ze6UiuouuB3SVoA9YOiI2fH2czvUbuS7e4fRXGfYZudafvDFxX5q5lYjv-T-1h335PvoEQRHtYsO72j02__YmDo:1ovaJn:YQ10-ygdpTNwJv6yQ-stayNlhwxWBxh1Oo0Bq3XqNvs', '2022-12-01 08:32:19.863047'),
+	('o6mp5p19st3kvoggb0hmgo9kyipgqgt6', 'eyJ2YWxpZF9jb2RlIjoiUnNGViJ9:1oUA1r:AGcUDx33UDawD5IJOfW-TpRKvSgGF-CMcWeBzjEBOKA', '2022-09-16 17:00:27.428513'),
+	('p5i9nwzty13iyxg7n0674kbqp4p2jl42', 'eyJ2YWxpZF9jb2RlIjoiU1JiRyJ9:1oUA0S:1SCAaX3K9KYZh2jfXFGpVQc3b1nrAZm2MdUijx869O4', '2022-09-16 16:59:00.491835'),
+	('pb2g4w5vqjh79d18a6rh0lqtju710w8l', '.eJy9Vk2zmyAU_SsZ1vlARMS3a_ftrqv6JnMFTGj9yKBm8yb_vaB57cSxD-O8ZIVyD8d7zr2Ab-gMhZZ7UUuFXtB3UnK0Rnvo2uO-a5TZa2mng9u5DMRvVbmA_AXVod6KumqNzrYOsr1Gm-03y1l8vWJvCI7QHO1qJTJh0SSSUmAhqWI4zDiPcI6BZBSzOE5wKCglMiNRrBIZ2iWcB4SxnKs-01JVXWO5fr6lqIJSpehllaIvpxMOUrS2j9omN0zmYFY5bIQ2olBDsHQpNi58uz5Nu0ip0A2UwgyizhRDbAey1NUOXAL2-axMuxsgIOWPj1A2fkVmRoEUpiuzidTmSLusV8vlXF5dWGnpogHGZIKNRTy2QwwKLzfHtNpCGq8977jHGjRf0tig0MNmXRc2o7RLYkYW2yVq2yU-rwbQ84y6R9rYNurlZhAk7k0wuti2Fg7eDusxzzRtvrCxadEEdxwR7khJyBbb5I5lXeW1z6q_uMfaNV_S2CDmYbOtyol0jYtFvvzsOkMLxn90XWHPM-seeWPr4gluDlHUD3J5b4m6tLe09xp8hz3WrPmCxvbw8UQwSc-d-zyjboNzgt2uZyHvC5Thibu3cd9sjloVcgNF6_0viXOgbpB04uzoydwebTaiPvynKPY3bHcwdXf6oCL_MDPL8Tnap7r7Hr2jEgV4XLPk8ooufwAVH2CM:1ocHTw:BLuLjYhzdp5nNn839__VBoSD8IHW-OC2leS-0zxBCHA', '2022-10-09 02:35:00.499553'),
+	('phso8ha3cr20rcisey5v8kvl9q29jaor', 'eyJ2YWxpZF9jb2RlIjoiclBtTiJ9:1oUA1Y:TooITxoPVTuD1spu2oB7zYH2JfS5XL3JKwzUjwekEdM', '2022-09-16 17:00:08.738791'),
+	('pziy18zvvvlgu4nt3g4k9pmlholpex5i', 'eyJ2YWxpZF9jb2RlIjoiSk03UyJ9:1oU9zB:cRMMtZiCWfmmM6l2qwUHMkXNTyu9uWIi8LMj82vZ4uw', '2022-09-16 16:57:41.943942'),
+	('q7s1hvx58cs3ixr1o1fx1dutzfbs4jpo', 'eyJ2YWxpZF9jb2RlIjoieEZsMiJ9:1oUA3y:xCAGaJG-QDVgt-WzFvyeMwYC0xElWK_rHZJwZExjSs0', '2022-09-16 17:02:38.781283'),
+	('r36o7569z7rsbr5dzjkkgdtkre794hci', 'eyJ2YWxpZF9jb2RlIjoiYUVZaiJ9:1oU9WW:_DjvYJFFmd5JsB3Gs5qvWv5K1rLBpA4-dNNdZcl0DVA', '2022-09-16 16:28:04.745343'),
+	('rzos1c8zyivh35yyahqabin71bx1145u', 'eyJ2YWxpZF9jb2RlIjoiRW1YdyJ9:1ovh7f:8zqfEpL2rbiM5eqnKfFd_T8seBoDTSAniH3oMFbZqVs', '2022-12-01 15:48:15.068102'),
+	('t7ozjhby6spbepy7pehnvnkhu69gntdk', 'eyJ2YWxpZF9jb2RlIjoiZXZPRiJ9:1oUA0f:ykghmulz7FS2oJwpsWOKa4OVUJzjD9NqJQa9jqq03nQ', '2022-09-16 16:59:13.681669'),
+	('upy356nnm2bju6ehy4ft3u6iqnjbfjlg', 'eyJ2YWxpZF9jb2RlIjoicjVORSJ9:1oUA0i:l0oViU-yE9g5fDUit6oLPwMRGdtJJ7WqqGRjHrjK8R4', '2022-09-16 16:59:16.699741'),
+	('uyj7l41iivhtm0idfoci5a3rie1h8olx', 'eyJ2YWxpZF9jb2RlIjoiZmxYYyJ9:1oUA0h:-LfxwSUpMmqwZTLh3PHUX0-bGg_HqcyzzUNCBndtwLk', '2022-09-16 16:59:15.735398'),
+	('y66r1o57f9diqixif7iestlt5lcw9zfj', '.eJxVjDsOwjAQBe_iGlmO_6Gkp-IAlr27wYYoifKhQdwdR0qTdt68-bJP7AsGGJHYlakJHuzCQtzWHLaF5lCw4ubMUoQ3DfuArzg8Rw7jsM4l8V3hx7rwe232t8M9BXJccn0TJKi2NIggADVZoZL3RnQiyqSFda4VCrSWmKRx1KKqF-8baW3nybPfH5FzPqw:1ozoAv:QG-2AtubaFzw877QVuU5AcyONqYUXnf6_gVXG071_iU', '2022-12-13 00:08:37.337353');
+/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

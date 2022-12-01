@@ -8,7 +8,7 @@
         <el-dialog
                 title="發佈心情"
                 :visible.sync="mood_dialogVisible"
-                width="50%">
+                width="60%">
             <div class="add_mood_content body">
                 <div>
                     <label for="">用戶名</label>
@@ -20,7 +20,7 @@
                     <ul class="flex avatar_list">
                         {% for avatar in avatar_list %}
                             <li>
-                                <el-radio v-model="mood_add.avatar_id" label="{{ avatar.nid }}">
+                                <el-radio v-model="mood_add.avatar_id" :label="{{ avatar.nid }}">
                                     <img src="{{ avatar.url.url }}" alt="">
                                 </el-radio>
                             </li>
@@ -36,16 +36,40 @@
                 <div>
                     <label for="mood_add_drawing">配圖</label>
                     <el-input id="mood_add_drawing" v-model="mood_add.drawing" type="textarea" :row="4" resize="none"
-                              placeholder="請輸入配圖，多個圖片使用、隔開"></el-input>
+                              placeholder="請輸入圖片網址，Enter換下一張圖"></el-input>
                 </div>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="mood_dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="mood_add_method">确 定</el-button>
-                </span>
+                <div class="show_drawing" v-show="mood_show_drawing">
+                    <img v-for="(item,index) in mood_show_drawing" :src="item" :key="index" alt="">
+                </div>
             </div>
+            <span slot="footer" class="dialog-footer">
+                    <el-button @click="mood_dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="mood_add_method">確 定</el-button>
+            </span>
         </el-dialog>
-
-        <el-button class="add_mood" @click="mood_dialogVisible = true">發佈心情</el-button>
+        <el-dialog
+                title="評論心情"
+                :visible.sync="mood_comment_dialogVisible"
+                width="40%">
+            <div class="add_mood_content body">
+                <div>
+                    <label for="">用戶名</label>
+                    <el-input ref="mood_comment_add__name" id="mood_comment_add_name" v-model="mood_comment_add.name"
+                              placeholder="請輸入用戶名"></el-input>
+                </div>
+                <div>
+                    <label for="">心情內容</label>
+                    <el-input ref="mood_comment_add__content" id="mood_comment_add_content" v-model="mood_comment_add.content" type="textarea"
+                              :row="4" resize="none"
+                              placeholder="請輸入心情內容"></el-input>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                    <el-button @click="mood_comment_dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="mood_comment_add_method">確 定</el-button>
+            </span>
+        </el-dialog>
+        <el-button id="pos" class="add_mood" @click="mood_dialogVisible = true">發佈心情</el-button>
         {% for mood in mood_list %}
             <div class="mood flex">
                 <div class="left">
@@ -58,11 +82,18 @@
                         {% generate_drawing mood.drawing %}
                     </div>
                     <div class="info flex">
-                        <span class="date">{{ mood.create_date }}</span>
+                        <span class="date">
+                            {{ mood.create_date }}
+                            <img class="addr" src="/static/my/img/moods/addr.svg" alt="">
+                            <i class="addr_info">{{ mood.addr.prov }}-{{ mood.addr.city }}</i>
+                        </span>
                         <span class="three">
                         <span>點讚（{{ mood.digg_count }}）</span>
                         <span @click="mood_show_comment_list($event)">評論（{{ mood.comment_count }}）</span>
-                        <span class="delete">刪除</span>
+                            {% if request.user.is_superuser %}
+                                <span @click="mood_delete('{{ mood.nid }}', $event)" class="delete">刪除</span>
+                            {% endif %}
+
                     </span>
                     </div>
                     <ul class="sub_comment_list">
@@ -71,22 +102,30 @@
                                 <img src="/static/my/img/moods/pic02.png">
                             </div>
                             <div class="right">
-                                <h4 class="name">Honey</h4>
+                                <h4 class="name">Mary</h4>
                                 <p class="content">簽到！</p>
                                 <div class="info flex">
                                     <span class="date">1小時前</span>
                                     <span class="three">
                                     <span>點讚（1）</span>
-                                    <span class="delete">刪除</span>
+                                        {% if request.user.is_superuser %}
+                                            <span class="delete">刪除</span>
+                                        {% endif %}
+
                                 </span>
                                 </div>
                             </div>
                         </li>
-                        <el-button type="primary" class="rep_mood" plain>回覆這條心情</el-button>
+                        <el-button type="primary" class="rep_mood" @click="mood_comment_dialogVisible = true" plain>
+                            評論這條心情
+                        </el-button>
                     </ul>
                 </div>
             </div>
         {% endfor %}
+        <ul class="pager">
+            {{ pager.page_html | safe }}
+        </ul>
 
     </div>
 {% endblock %}

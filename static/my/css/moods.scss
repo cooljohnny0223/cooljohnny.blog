@@ -1,3 +1,4 @@
+@import "./pager"; // 引入分頁器樣式
 .main {
   width: 1200px; // 固定寬度
   .add_mood {
@@ -40,11 +41,11 @@
         margin-bottom: 10px; // 向下外邊距
       }
 
-      .drawing{
-        img{
+      .drawing {
+        img {
           height: 120px; // 高度
           border-radius: 5px; // 圓角
-          margin-right: 10px;  // 向右外邊距
+          margin-right: 10px; // 向右外邊距
           margin-bottom: 10px; // 向下外邊距
         }
       }
@@ -52,6 +53,18 @@
       .info {
         font-size: 14px; // 字型大小
         justify-content: space-between; // 平均分配「元素」位置，但左右兩側會貼齊主軸的起點、終點
+        .addr { // 地圖標示圖示
+          margin-left: 5px; // 向左外邊距
+          position: relative; // 相對定位
+          top: 4px; // 往上移動
+          width: 20px; // 寬度
+          height: 20px; // 高度
+        }
+
+        .addr_info { // 地址內容
+          color: #ff6749; // 字體顏色
+        }
+
 
         > .three > span {
           cursor: pointer; // 顯示連結手勢
@@ -92,6 +105,10 @@
     }
   }
 
+  .pager {
+    margin-top: 20px;
+  }
+
   .add_mood_content {
     > div {
       margin-bottom: 20px; // 下面外邊距
@@ -107,9 +124,9 @@
         > li {
           margin-right: 10px; // 右邊外邊距
           margin-bottom: 10px; // 下面外邊距
-          .el-radio{
+          .el-radio {
             display: flex; // 左右排版
-            align-items: center;  // 垂直置中
+            align-items: center; // 垂直置中
           }
         }
       }
@@ -117,6 +134,13 @@
       img {
         width: 50px; // 寬度
         height: 54px; // 高度
+      }
+    }
+
+    .show_drawing {
+      img {
+        width: initial;
+        margin-right: 10px;
       }
     }
   }

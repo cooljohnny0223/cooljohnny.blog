@@ -113,7 +113,20 @@ def news(request):
 def moods(request):
     # 查詢所有的頭像
     avatar_list = Avatars.objects.all()
-    mood_list = Moods.objects.all()
+    mood_list = Moods.objects.all().order_by('-create_date')
+
+    # 分頁
+    query_params = request.GET.copy()
+    pager = Pagination(
+        current_page=request.GET.get('page'),
+        all_count=mood_list.count(),
+        base_url=request.path_info,
+        query_params=query_params,
+        per_page=2,
+        pager_page_count=7,
+    )
+    mood_list = mood_list[pager.start:pager.end]
+
     return render(request, 'moods.html', locals())
 
 

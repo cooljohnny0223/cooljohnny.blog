@@ -199,7 +199,7 @@ class History(models.Model):
     nid = models.AutoField(primary_key=True)
     title = models.CharField(max_length=32, verbose_name='事件名稱')
     content = models.TextField(verbose_name='事件內容')
-    create_date = models.DateField(verbose_name='創建時間', null=True)
+    create_date = models.DateTimeField(verbose_name='發佈時間', auto_now_add=True)
     drawing = models.TextField(verbose_name='配圖組，以;隔開', null=True, blank=True)
 
     class Meta:
@@ -210,7 +210,9 @@ class History(models.Model):
 class Moods(models.Model):
     nid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=16, verbose_name='發佈人')
-    create_date = models.DateField(verbose_name='發佈時間', auto_now=True)
+    ip = models.GenericIPAddressField(verbose_name='IP地址', default='114.33.106.143')
+    addr = models.JSONField(verbose_name='用戶地址信息', null=True)
+    create_date = models.DateTimeField(verbose_name='發佈時間', auto_now_add=True)
     content = models.TextField(verbose_name='心情內容')
     drawing = models.TextField(verbose_name='配圖組，以;隔開', null=True, blank=True)
     comment_count = models.IntegerField(verbose_name='評論數', default=0)
@@ -243,6 +245,8 @@ class MoodComment(models.Model):
     name = models.CharField(verbose_name='評論人', max_length=16, null=True)
     content = models.TextField(verbose_name='評論內容')
     digg_count = models.IntegerField(verbose_name='點讚數', default=0)
+    ip = models.GenericIPAddressField(verbose_name='IP地址', default='114.33.106.143')
+    addr = models.JSONField(verbose_name='用戶地址信息', null=True)
     mood = models.ForeignKey(
         to='Moods',
         to_field='nid',

@@ -24,14 +24,15 @@ SECRET_KEY = 'django-insecure-6en7o*d0_d&-v)&u9c*n6#sml&i+12x_gax6oa14za(ls8o4do
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 # 追加全部允許
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
 INSTALLED_APPS = [
+    # CROS
+    "corsheaders",
     'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +45,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # CROS
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +58,67 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 加入中間件
     'app01.middleware_decode.Md1',
+]
+
+# # 跨域增加忽略
+#
+# CORS_ALLOW_CREDENTIALS = True
+#
+# CORS_ORIGIN_ALLOW_ALL = True
+#
+# CORS_ALLOW_METHODS = (
+#
+#     'DELETE',
+#
+#     'GET',
+#
+#     'OPTIONS',
+#
+#     'PATCH',
+#
+#     'POST',
+#
+#     'PUT',
+#
+#     'VIEW',
+#
+# )
+#
+# CORS_ALLOW_HEADERS = (
+#
+#     'XMLHttpRequest',
+#
+#     'X_FILENAME',
+#
+#     'accept-encoding',
+#
+#     'authorization',
+#
+#     'content-type',
+#
+#     'dnt',
+#
+#     'origin',
+#
+#     'user-agent',
+#
+#     'x-csrftoken',
+#
+#     'x-requested-with',
+#
+#     'Pragma',
+#
+# )
+
+# # 允許任何請求來呼叫，這是相當危險的
+# CORS_ALLOW_ALL_ORIGINS = True
+
+# 允許這些網域來的請求可以使用網站資源
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:80",
+    "http://127.0.0.1:80",
+    "http://192.168.100.99:80",
+    "http://114.33.106.143:80",
 ]
 
 ROOT_URLCONF = 'v4_blog.urls'
@@ -125,12 +191,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 # LANGUAGE_CODE = 'en-us'
-#
-# TIME_ZONE = 'UTC'
+
+# UTC 時間
+TIME_ZONE = 'UTC'
 
 LANGUAGE_CODE = 'zh-hant'
 
-TIME_ZONE = 'Asia/Taipei'
+# 亞州/台北
+# TIME_ZONE = 'Asia/Taipei'
 
 USE_I18N = True
 
@@ -165,4 +233,3 @@ SIMPLEUI_HOME_ACTION = False  # 關閉最近動作
 SIMPLEUI_HOME_PAGE = '/news/'  # 顯示頁面路由路徑
 SIMPLEUI_HOME_TITLE = '首頁(使用新聞頁面測試)'  # 顯示首頁名稱 可重新命名
 SIMPLEUI_HOME_ICON = 'fa fa-user'  # 變更icon圖示
-

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>尚豪個人部落格</title>
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
     <!-- 導入css文件 -->
     <link rel="stylesheet" href="/static/element-ui/element.css">
     <link rel="stylesheet" href="/static/my/css/reset.css">
@@ -360,13 +361,22 @@
             news_active: '聯合新聞網', // 默認選中項目
             news_img_active: '/static/my/img/news/udn.svg',  // 默認選中圖片
 
-            mood_dialogVisible: false,  // 發佈心情 新增視窗開關
+            mood_dialogVisible: false,  // 發佈心情 顯示新增視窗開關
 
-            mood_add:{
-                name:'', // 用戶名
-                avatar_id:null, // 頭像id
-                content:'', // 內容
-                drawing:'', // 配圖
+            mood_add: {
+                name: '', // 用戶名
+                avatar_id: null, // 頭像id
+                content: '', // 內容
+                drawing: '', // 配圖
+            },
+
+            mood_show_drawing: [],  // 發佈心情配圖預覽
+
+            mood_comment_dialogVisible: false,  // 心情評論 顯示新增視窗開關
+
+            mood_comment_add: {
+                name: '', // 用戶名
+                content: '', // 內容
             }
         },
         // 生命週期函數：所有加載完之後執行
@@ -690,23 +700,61 @@
                 )
             },
             // 展示心情評論列表
-            mood_show_comment_list(e){
+            mood_show_comment_list(e) {
                 let div = $(e.target).parent().parent().next() // 選中評論的div
                 div.slideToggle()
             },
             // 發佈心情
-            mood_add_method(){
-                axios.post('/api/moods/', this.mood_add).then(res=>{
-                   if (res.code){
-                       this.$message.error(res.msg)
-                       this.$refs[`mood_add__${res.self}`].focus()
-                       return
-                   }
-                   this.$message.success(res.msg)
-                    setTimeout(()=>{
+            mood_add_method() {
+                axios.post('/api/moods/', this.mood_add).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        this.$refs[`mood_add__${res.self}`].focus()
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
                         location.reload()
-                    },1000)
+                    }, 1000)
                 })
+            },
+
+            // 刪除發佈心情
+            mood_delete(nid, e) {
+                this.$confirm('此操作將永遠删除心情, 是否繼續?', '提示', {
+                    confirmButtonText: '確認',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.delete(`/api/moods/${nid}/`).then(res => {
+                        if (res.code) {
+                            this.$message.error(res.msg)
+                            return
+                        }
+                        this.$message.success(res.msg)
+                        // 定時器
+                        setTimeout(() => {
+                            // 尋找指定的父類
+                            $(e.target).parents('.mood').remove()
+                        }, 500)
+                    });
+                }).catch(() => {
+                    // this.$message({
+                    //     type: 'info',
+                    //     message: '已取消刪除'
+                    // });
+                });
+            },
+
+            // 新增評論心情
+            mood_comment_add_method() {
+                console.log(this.mood_comment_add)
+            }
+
+        },
+        watch: {
+            'mood_add.drawing'(n, o) {
+                this.mood_show_drawing = n.split('\n')
             }
         }
     })
